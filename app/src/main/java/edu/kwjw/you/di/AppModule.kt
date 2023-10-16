@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import edu.kwjw.you.data.repository.EventRepository
 import edu.kwjw.you.data.repository.network.EventOnlineRepository
 import edu.kwjw.you.data.repository.network.EventService
+import edu.kwjw.you.data.repository.network.adapter.UuidAdapter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 object AppModule {
 
     private const val BASE_URL = "http://10.0.2.2:8080"
-    private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).add(UuidAdapter()).build()
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))

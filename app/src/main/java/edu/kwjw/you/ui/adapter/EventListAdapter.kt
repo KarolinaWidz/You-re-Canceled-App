@@ -1,12 +1,12 @@
-package edu.kwjw.you.ui.recyclerView.adapter
+package edu.kwjw.you.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import edu.kwjw.you.data.model.Event
 import edu.kwjw.you.databinding.EventItemBinding
-import edu.kwjw.you.ui.recyclerView.model.Event
 
 
 class EventListAdapter : ListAdapter<Event, EventListAdapter.ViewHolder>(EventDiff) {
@@ -28,9 +28,10 @@ class EventListAdapter : ListAdapter<Event, EventListAdapter.ViewHolder>(EventDi
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        val item = getItem(position)
         with(viewHolder){
-            name.text = name.toString()
-            status.text = status.toString()
+            name.text = item.name
+            status.text = item.status.toString()
         }
     }
 }
