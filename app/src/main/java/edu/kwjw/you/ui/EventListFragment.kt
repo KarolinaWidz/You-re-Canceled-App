@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
@@ -26,8 +27,7 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         _binding = FragmentEventListBinding.bind(view)
         initList()
         binding.fab.setOnClickListener {
-            val bottomSheetFragment = AddEventDialogFragment()
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            findNavController().navigate(EventListFragmentDirections.actionEventListFragmentToAddEventDialogFragment())
         }
         viewModel.getEventsForUser(1)
 
