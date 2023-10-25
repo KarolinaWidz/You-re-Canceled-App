@@ -26,26 +26,27 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentEventListBinding.bind(view)
         initList()
-        binding.fab.setOnClickListener {
-            findNavController().navigate(EventListFragmentDirections.actionEventListFragmentToAddEventDialogFragment())
-        }
+        binding.fab.setOnClickListener { navigateToAddEventDialog() }
         viewModel.getEventsForUser(1)
 
+    }
+
+    private fun navigateToAddEventDialog() {
+        findNavController().navigate(EventListFragmentDirections.actionEventListFragmentToAddEventDialogFragment())
     }
 
     private fun initList() {
         adapter = EventListAdapter()
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-
-        viewModel.events.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.HttpError -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_error)
-                Result.Loading -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_wait)
-                is Result.NetworkError -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_error)
-                is Result.Success -> setEventList(result.data, View.GONE, null)
-
-            }
+        viewModel.events.observe(viewLifecycleOwner) { result -> setDataForList(result)}
+    }
+    private fun setDataForList(result: Result<List<Event>>){
+        when (result) {
+            is Result.HttpError -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_error)
+            Result.Loading -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_wait)
+            is Result.NetworkError -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_error)
+            is Result.Success -> setEventList(result.data, View.GONE, null)
         }
     }
 
