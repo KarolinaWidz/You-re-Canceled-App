@@ -1,16 +1,13 @@
-package edu.kwjw.you.data.model
+package edu.kwjw.you.domain.model
 
-import com.squareup.moshi.Json
-import edu.kwjw.you.EventStatus
 import java.time.LocalDateTime
 import java.util.UUID
 
 data class Event(
     val id: UUID,
-    val userId: Int,
+    val userId: String,
     val name: String,
     val date: LocalDateTime,
     val participants: List<Participant>,
     val status: EventStatus,
-    @Json(name = "cancelled") val isCancelled: Boolean
 )

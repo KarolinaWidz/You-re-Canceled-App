@@ -1,4 +1,4 @@
-package edu.kwjw.you.ui
+package edu.kwjw.you.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -8,10 +8,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
-import edu.kwjw.you.data.model.Event
+import edu.kwjw.you.domain.model.Event
 import edu.kwjw.you.databinding.FragmentEventListBinding
-import edu.kwjw.you.ui.adapter.EventListAdapter
-import edu.kwjw.you.ui.viewModel.EventListViewModel
+import edu.kwjw.you.presentation.adapter.EventListAdapter
+import edu.kwjw.you.presentation.viewModel.EventListViewModel
 import edu.kwjw.you.util.Result
 
 @AndroidEntryPoint

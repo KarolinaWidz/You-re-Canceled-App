@@ -1,4 +1,4 @@
-package edu.kwjw.you.ui
+package edu.kwjw.you.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

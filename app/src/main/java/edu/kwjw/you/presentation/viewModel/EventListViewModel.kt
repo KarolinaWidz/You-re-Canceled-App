@@ -1,11 +1,11 @@
-package edu.kwjw.you.ui.viewModel
+package edu.kwjw.you.presentation.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.kwjw.you.data.model.Event
+import edu.kwjw.you.domain.model.Event
 import edu.kwjw.you.data.repository.EventRepository
 import edu.kwjw.you.util.Result
 import kotlinx.coroutines.launch

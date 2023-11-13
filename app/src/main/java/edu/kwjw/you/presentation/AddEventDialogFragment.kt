@@ -1,4 +1,4 @@
-package edu.kwjw.you.ui
+package edu.kwjw.you.presentation
 
 
 import android.os.Bundle
@@ -9,9 +9,9 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
-import edu.kwjw.you.data.repository.network.request.AddEventRequest
+import edu.kwjw.you.data.remote.dto.AddEventDto
 import edu.kwjw.you.databinding.FragmentAddEventDialogBinding
-import edu.kwjw.you.ui.viewModel.AddEventDialogViewModel
+import edu.kwjw.you.presentation.viewModel.AddEventDialogViewModel
 import java.time.LocalDateTime
 
 @AndroidEntryPoint
@@ -32,7 +32,7 @@ class AddEventDialogFragment : BottomSheetDialogFragment() {
         _binding = FragmentAddEventDialogBinding.bind(view)
         binding.addButton.setOnClickListener {
             viewModel.addNewEvent(
-                AddEventRequest(
+                AddEventDto(
                     1, "test event", LocalDateTime.now()
                 )
             )

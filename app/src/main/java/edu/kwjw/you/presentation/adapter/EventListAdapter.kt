@@ -1,12 +1,12 @@
-package edu.kwjw.you.ui.adapter
+package edu.kwjw.you.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import edu.kwjw.you.data.model.Event
 import edu.kwjw.you.databinding.EventItemBinding
+import edu.kwjw.you.domain.model.Event
 
 
 class EventListAdapter : ListAdapter<Event, EventListAdapter.ViewHolder>(EventDiff) {

@@ -8,10 +8,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import edu.kwjw.you.data.repository.EventRepository
-import edu.kwjw.you.data.repository.network.EventOnlineRepository
-import edu.kwjw.you.data.repository.network.EventService
-import edu.kwjw.you.data.repository.network.adapter.LocalDateTimeAdapter
-import edu.kwjw.you.data.repository.network.adapter.UuidAdapter
+import edu.kwjw.you.data.repository.EventOnlineRepository
+import edu.kwjw.you.data.remote.EventService
+import edu.kwjw.you.data.remote.adapter.LocalDateTimeAdapter
+import edu.kwjw.you.data.remote.adapter.UuidAdapter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton

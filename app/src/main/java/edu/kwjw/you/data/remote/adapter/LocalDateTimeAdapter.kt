@@ -1,4 +1,4 @@
-package edu.kwjw.you.data.repository.network.adapter
+package edu.kwjw.you.data.remote.adapter
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonDataException
