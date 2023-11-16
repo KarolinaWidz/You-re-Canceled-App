@@ -1,66 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/layout_margin">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/add_event_text_view"
-        style="@style/TextAppearance.Material3.TitleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/padding_16dp"
-        android:text="@string/add_new_event"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/event_name_text_input"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingEnd="@dimen/padding_16dp"
+            app:navigationIcon="@drawable/ic_close"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_event_text_view">
+        android:layout_margin="@dimen/layout_margin"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <com.google.android.material.textfield.TextInputEditText
-            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/event_name_text_input"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/name"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/vertical_margin"
+            android:layout_marginVertical="@dimen/margin_between_fields"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/ic_event_name">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/event_date_text_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_name_text_input">
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/name"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/event_date_text_input"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/date"
-            android:inputType="datetime"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/vertical_margin"
+            android:layout_marginVertical="@dimen/margin_between_fields"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_name_text_input"
+            app:startIconDrawable="@drawable/ic_event_date">
 
-    <Button
-        android:id="@+id/add_button"
-        style="@style/Widget.Material3.Button.UnelevatedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/padding_16dp"
-        android:text="@string/add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_date_text_input" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/event_date_edit_text"
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/date"
+                android:inputType="datetime"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

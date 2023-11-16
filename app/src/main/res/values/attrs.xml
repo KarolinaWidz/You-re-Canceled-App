@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorTeal" format="color" />
+    <attr name="colorOnTeal" format="color" />
+    <attr name="colorTealContainer" format="color" />
+    <attr name="colorOnTealContainer" format="color" />
+    <attr name="harmonizeTeal" format="boolean" />
+    <attr name="colorDarkTeal" format="color" />
+    <attr name="colorOnDarkTeal" format="color" />
+    <attr name="colorDarkTealContainer" format="color" />
+    <attr name="colorOnDarkTealContainer" format="color" />
+    <attr name="harmonizeDarkTeal" format="boolean" />
+    <attr name="colorLightPink" format="color" />
+    <attr name="colorOnLightPink" format="color" />
+    <attr name="colorLightPinkContainer" format="color" />
+    <attr name="colorOnLightPinkContainer" format="color" />
+    <attr name="harmonizeLightPink" format="boolean" />
+    <attr name="colorSalmon" format="color" />
+    <attr name="colorOnSalmon" format="color" />
+    <attr name="colorSalmonContainer" format="color" />
+    <attr name="colorOnSalmonContainer" format="color" />
+    <attr name="harmonizeSalmon" format="boolean" />
+    <attr name="colorLightTeal" format="color" />
+    <attr name="colorOnLightTeal" format="color" />
+    <attr name="colorLightTealContainer" format="color" />
+    <attr name="colorOnLightTealContainer" format="color" />
+    <attr name="harmonizeLightTeal" format="boolean" />
+</resources>
