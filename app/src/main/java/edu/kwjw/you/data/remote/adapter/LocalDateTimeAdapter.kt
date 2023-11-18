@@ -3,6 +3,7 @@ package edu.kwjw.you.data.remote.adapter
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.ToJson
+import java.time.DateTimeException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -12,7 +13,7 @@ class LocalDateTimeAdapter {
         try {
             val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
             return formatter.format(localDateTime)
-        } catch (e: Exception) {
+        } catch (e: DateTimeException) {
             throw JsonDataException("Cannot parse date: $localDateTime")
         }
 
@@ -23,7 +24,7 @@ class LocalDateTimeAdapter {
         try {
             val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
             return LocalDateTime.parse(json, formatter)
-        } catch (e: Exception) {
+        } catch (e: DateTimeException) {
             throw JsonDataException("Cannot parse date: $json")
         }
     }

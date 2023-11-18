@@ -63,7 +63,30 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:hint="@string/date"
-                android:inputType="datetime"
+                android:inputType="date"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/event_time_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/vertical_margin"
+            android:layout_marginVertical="@dimen/margin_between_fields"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_date_text_input"
+            app:startIconDrawable="@drawable/ic_event_time">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/event_time_edit_text"
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/time"
+                android:inputType="time"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,25 +1,35 @@
 package edu.kwjw.you.presentation
 
 
+import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.data.remote.dto.AddEventDto
 import edu.kwjw.you.databinding.FragmentAddEventDialogBinding
 import edu.kwjw.you.presentation.viewModel.AddEventDialogViewModel
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.util.Locale
 
 @AndroidEntryPoint
 class AddEventDialogFragment : DialogFragment() {
     private var _binding: FragmentAddEventDialogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AddEventDialogViewModel by viewModels()
+
+    private val dateFormatter = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,18 +64,58 @@ class AddEventDialogFragment : DialogFragment() {
             true
         }
         binding.eventDateEditText.setOnClickListener { configureDatePicker() }
+        binding.eventTimeEditText.setOnClickListener { configureTimePicker() }
     }
 
     private fun configureDatePicker() {
         val picker = MaterialDatePicker.Builder
             .datePicker()
+            .setTextInputFormat(dateFormatter)
             .setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
+            .setCalendarConstraints(futureDateConstraint())
             .build()
 
         picker.show(parentFragmentManager, DATE_PICKER_TAG)
+
+        picker.addOnPositiveButtonClickListener {
+            val date = dateFormatter.format(it)
+            binding.eventDateEditText.setText(date)
+        }
+    }
+
+    private fun futureDateConstraint(): CalendarConstraints {
+        return CalendarConstraints.Builder()
+            .setStart(getStartDate())
+            .setValidator(DateValidatorPointForward.now())
+            .build()
+    }
+
+    private fun getStartDate(): Long {
+        val today = MaterialDatePicker.todayInUtcMilliseconds()
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone(UTC_TIME_ZONE))
+        calendar.timeInMillis = today
+        return calendar.timeInMillis
+    }
+
+    private fun configureTimePicker() {
+        val picker = MaterialTimePicker.Builder()
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .build()
+
+        picker.show(parentFragmentManager, TIME_PICKER_TAG)
+
+        picker.addOnPositiveButtonClickListener {
+            val time = String.format(TIME_FORMAT, picker.hour, picker.minute)
+            binding.eventTimeEditText.setText(time)
+        }
     }
 
     companion object {
         const val DATE_PICKER_TAG = "DatePicker"
+        const val TIME_PICKER_TAG = "TimePicker"
+        const val UTC_TIME_ZONE = "UTC"
+        const val DATE_FORMAT = "dd/MM/yyyy"
+        const val TIME_FORMAT = "%02d:%02d"
     }
 }
