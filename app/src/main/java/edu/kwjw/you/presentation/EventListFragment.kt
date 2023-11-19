@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.databinding.FragmentEventListBinding
-import edu.kwjw.you.domain.model.Event
 import edu.kwjw.you.presentation.adapter.EventListAdapter
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
-import edu.kwjw.you.util.Result
 
 @AndroidEntryPoint
 class EventListFragment : Fragment(R.layout.fragment_event_list) {
@@ -40,20 +38,19 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         adapter = EventListAdapter()
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-        viewModel.events.observe(viewLifecycleOwner) { result -> setDataForList(result) }
+        viewModel.eventsState.observe(viewLifecycleOwner) { result -> setDataForList(result) }
     }
 
-    private fun setDataForList(result: Result<List<Event>>) {
-        when (result) {
-            is Result.HttpError -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_error)
-            Result.Loading -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_wait)
-            is Result.NetworkError -> setEventList(listOf(), View.VISIBLE, R.drawable.ic_error)
-            is Result.Success -> setEventList(result.data, View.GONE, null)
+    private fun setDataForList(eventState: EventsForUserHolder) {
+        adapter.submitList(eventState.data)
+        when (eventState.state) {
+            EventsForUserHolder.EventState.LOADING -> changeLayout(View.VISIBLE, R.drawable.ic_wait)
+            EventsForUserHolder.EventState.SUCCESS -> changeLayout(View.GONE, null)
+            EventsForUserHolder.EventState.ERROR -> changeLayout(View.VISIBLE, R.drawable.ic_error)
         }
     }
 
-    private fun setEventList(eventList: List<Event>, visibility: Int, drawable: Int?) {
-        adapter.submitList(eventList)
+    private fun changeLayout(visibility: Int, drawable: Int?) {
         drawable?.let { binding.statusImage.setImageResource(drawable) }
         binding.statusImage.visibility = visibility
     }
