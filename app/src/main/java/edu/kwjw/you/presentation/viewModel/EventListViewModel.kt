@@ -5,39 +5,54 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.kwjw.you.domain.usecase.EventList
-import edu.kwjw.you.presentation.EventsForUserHolder
-import edu.kwjw.you.util.Result
-import kotlinx.coroutines.flow.last
+import edu.kwjw.you.domain.model.Event
+import edu.kwjw.you.domain.usecase.AddNewEvent
+import edu.kwjw.you.domain.usecase.GetEventsForUser
+import edu.kwjw.you.presentation.uiState.EventsForUserHolder
+import edu.kwjw.you.util.ApiResult
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EventListViewModel @Inject constructor(private val eventList: EventList) :
+class EventListViewModel @Inject constructor(
+    private val getEventsForUser: GetEventsForUser,
+    private val addNewEvent: AddNewEvent
+) :
     ViewModel() {
-    private val _eventsState = MutableLiveData<EventsForUserHolder>()
+    private val _eventsState = MutableLiveData(EventsForUserHolder())
     val eventsState: LiveData<EventsForUserHolder> = _eventsState
 
+    private val _addEventApiResult = MutableLiveData<ApiResult<Event>>()
+    val addEventApiResult: LiveData<ApiResult<Event>> get() = _addEventApiResult
 
-    fun getEventsForUser(userId: Int) {
+    private val _userId = MutableLiveData(1)
+    val userId: LiveData<Int> = _userId
+
+    fun getEvents(userId: Int) {
         viewModelScope.launch {
-            _eventsState.value = EventsForUserHolder(listOf(), EventsForUserHolder.EventState.LOADING)
-            val result = eventList.getEventsForUser(userId).last()
-            _eventsState.value = when (result) {
-                is Result.HttpError, is Result.NetworkError -> EventsForUserHolder(
-                    listOf(),
-                    EventsForUserHolder.EventState.ERROR
-                )
+            getEventsForUser(userId).collectLatest {
+                _eventsState.value = when (it) {
+                    is ApiResult.HttpError, is ApiResult.NetworkError -> EventsForUserHolder(
+                        state = EventsForUserHolder.EventState.ERROR
+                    )
 
-                is Result.Loading -> EventsForUserHolder(
-                    listOf(),
-                    EventsForUserHolder.EventState.LOADING
-                )
+                    is ApiResult.Loading -> EventsForUserHolder()
 
-                is Result.Success -> EventsForUserHolder(
-                    result.data,
-                    EventsForUserHolder.EventState.SUCCESS
-                )
+                    is ApiResult.Success -> EventsForUserHolder(
+                        data = it.data,
+                        state = EventsForUserHolder.EventState.SUCCESS
+                    )
+                }
+            }
+
+        }
+    }
+
+    fun addNewEvent(nameText: String, dateText: String, timeText: String) {
+        viewModelScope.launch {
+            addNewEvent(userId.value!!, nameText).collectLatest {
+                _addEventApiResult.value = it
             }
         }
     }

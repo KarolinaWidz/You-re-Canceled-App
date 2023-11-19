@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.databinding.FragmentEventListBinding
 import edu.kwjw.you.presentation.adapter.EventListAdapter
+import edu.kwjw.you.presentation.uiState.EventsForUserHolder
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
 
 @AndroidEntryPoint
@@ -24,8 +25,8 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentEventListBinding.bind(view)
         initList()
-        binding.fab.setOnClickListener { navigateToAddEventDialog() }
-        viewModel.getEventsForUser(1)
+        binding.fab.setOnClickListener { showAddEventDialog() }
+        viewModel.getEvents(1)
 
     }
 
@@ -55,7 +56,17 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         binding.statusImage.visibility = visibility
     }
 
-    private fun navigateToAddEventDialog() {
-        findNavController().navigate(EventListFragmentDirections.actionEventListFragmentToAddEventDialogFragment())
+    private fun showAddEventDialog() {
+        val dialog = AddEventDialogFragment()
+        dialog.addEventListener =
+            { text1, text2, text3 ->
+                viewModel.addNewEvent(text1, text2, text3)
+                findNavController().navigate(R.id.eventListFragment)
+            }
+        dialog.show(parentFragmentManager, ADD_EVENT_TAG)
+    }
+
+    companion object {
+        const val ADD_EVENT_TAG = "AddEventDialog"
     }
 }

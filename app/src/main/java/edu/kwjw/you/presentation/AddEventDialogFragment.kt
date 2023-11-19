@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -16,20 +15,17 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
-import edu.kwjw.you.data.remote.dto.AddEventDto
 import edu.kwjw.you.databinding.FragmentAddEventDialogBinding
-import edu.kwjw.you.presentation.viewModel.AddEventDialogViewModel
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.Locale
 
 @AndroidEntryPoint
 class AddEventDialogFragment : DialogFragment() {
     private var _binding: FragmentAddEventDialogBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: AddEventDialogViewModel by viewModels()
 
     private val dateFormatter = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
+    internal lateinit var addEventListener: (String, String, String) -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,20 +42,24 @@ class AddEventDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentAddEventDialogBinding.bind(view)
+        _binding = FragmentAddEventDialogBinding
+            .bind(view)
         configureDialog()
     }
 
     private fun configureDialog() {
-        binding.toolbar.setNavigationOnClickListener { dismiss() }
+        binding.toolbar.setNavigationOnClickListener {
+            addEventListener(
+                "test",
+                "date",
+                "time"
+            )
+            dismiss()
+        }
         binding.toolbar.setTitle(R.string.add_new_event)
         binding.toolbar.inflateMenu(R.menu.toolbar_menu)
         binding.toolbar.setOnMenuItemClickListener {
-            viewModel.addNewEvent(
-                AddEventDto(
-                    1, "test event", LocalDateTime.now()
-                )
-            )
+            addEventListener("test", "date", "time")
             dismiss()
             true
         }

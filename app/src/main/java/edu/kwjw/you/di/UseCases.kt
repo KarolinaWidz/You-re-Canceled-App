@@ -5,16 +5,23 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import edu.kwjw.you.data.repository.EventRepository
-import edu.kwjw.you.domain.usecase.EventList
+import edu.kwjw.you.domain.usecase.AddNewEvent
+import edu.kwjw.you.domain.usecase.GetEventsForUser
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class UseCases {
+object UseCases {
 
     @Provides
     @Singleton
-    fun provideEventListUseCase(repository: EventRepository): EventList {
-        return EventList(repository)
+    fun provideEventListUseCase(repository: EventRepository): GetEventsForUser {
+        return GetEventsForUser(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddNewEvent(repository: EventRepository): AddNewEvent {
+        return AddNewEvent(repository)
     }
 }
