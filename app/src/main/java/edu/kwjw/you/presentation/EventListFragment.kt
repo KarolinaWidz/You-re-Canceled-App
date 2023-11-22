@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
@@ -12,7 +11,6 @@ import edu.kwjw.you.databinding.FragmentEventListBinding
 import edu.kwjw.you.presentation.adapter.EventListAdapter
 import edu.kwjw.you.presentation.uiState.EventsForUserHolder
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
-import edu.kwjw.you.util.ApiResult
 
 @AndroidEntryPoint
 class EventListFragment : Fragment(R.layout.fragment_event_list) {
@@ -28,6 +26,8 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         initList()
         binding.fab.setOnClickListener { showAddEventDialog() }
         viewModel.getEvents(1)
+        viewModel.addEventApiResult.observe(viewLifecycleOwner) { viewModel.getEvents(1) }
+        //todo: add snack bar for results
     }
 
     override fun onDestroy() {
@@ -65,14 +65,12 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         val dialog = AddEventDialogFragment()
         dialog.addEventListener =
             { data ->
-                viewModel.addNewEvent(data)
-                findNavController().navigate(R.id.eventListFragment)
-                dialog.dismiss()
+                if (viewModel.isNewEventValid(data)) {
+                    viewModel.addNewEvent(data)
+                    dialog.dismiss()
+                }
+                //todo: add snack bar if invalid
             }
-        viewModel.addEventApiResult.observe(viewLifecycleOwner) { result ->
-            if (result is ApiResult.Success){dialog.dismiss()}
-            //todo: finish
-        }
         dialog.show(parentFragmentManager, ADD_EVENT_TAG)
     }
 

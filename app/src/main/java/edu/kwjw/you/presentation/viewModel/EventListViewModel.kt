@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.kwjw.you.domain.model.Event
 import edu.kwjw.you.domain.model.PlainEventData
-import edu.kwjw.you.domain.usecase.AddNewEvent
-import edu.kwjw.you.domain.usecase.GetEventsForUser
+import edu.kwjw.you.domain.usecase.NewEvent
+import edu.kwjw.you.domain.usecase.UserEvents
 import edu.kwjw.you.presentation.uiState.EventsForUserHolder
 import edu.kwjw.you.util.ApiResult
 import kotlinx.coroutines.flow.collectLatest
@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EventListViewModel @Inject constructor(
-    private val getEventsForUser: GetEventsForUser,
-    private val addNewEvent: AddNewEvent
+    private val userEvents: UserEvents,
+    private val newEvent: NewEvent
 ) :
     ViewModel() {
     private val _eventsState = MutableLiveData<EventsForUserHolder>()
@@ -32,7 +32,7 @@ class EventListViewModel @Inject constructor(
 
     fun getEvents(userId: Int) {
         viewModelScope.launch {
-            getEventsForUser(userId).collectLatest {
+            userEvents.get(userId).collectLatest {
                 _eventsState.value = when (it) {
                     is ApiResult.HttpError, is ApiResult.NetworkError -> EventsForUserHolder(
                         state = EventsForUserHolder.EventState.ERROR
@@ -50,10 +50,15 @@ class EventListViewModel @Inject constructor(
         }
     }
 
+    fun isNewEventValid(plainEventData: PlainEventData): Boolean {
+        return newEvent.isValid(plainEventData)
+    }
+
     fun addNewEvent(plainEventData: PlainEventData) {
         viewModelScope.launch {
-            addNewEvent(userId.value!!, plainEventData).collectLatest {
+            newEvent.add(userId.value!!, plainEventData).collectLatest {
                 _addEventApiResult.value = it
+
             }
         }
     }
