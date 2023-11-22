@@ -11,11 +11,13 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.databinding.FragmentAddEventDialogBinding
+import edu.kwjw.you.domain.model.PlainEventData
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -25,7 +27,7 @@ class AddEventDialogFragment : DialogFragment() {
     private val binding get() = _binding!!
 
     private val dateFormatter = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
-    internal lateinit var addEventListener: (String, String, String) -> Unit
+    internal lateinit var addEventListener: (PlainEventData) -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,29 +44,30 @@ class AddEventDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentAddEventDialogBinding
-            .bind(view)
+        _binding = FragmentAddEventDialogBinding.bind(view)
         configureDialog()
     }
 
     private fun configureDialog() {
-        binding.toolbar.setNavigationOnClickListener {
-            addEventListener(
-                "test",
-                "date",
-                "time"
-            )
-            dismiss()
-        }
+        binding.toolbar.setNavigationOnClickListener { dismiss() }
         binding.toolbar.setTitle(R.string.add_new_event)
         binding.toolbar.inflateMenu(R.menu.toolbar_menu)
-        binding.toolbar.setOnMenuItemClickListener {
-            addEventListener("test", "date", "time")
-            dismiss()
-            true
-        }
+        binding.toolbar.setOnMenuItemClickListener { createEvent() }
         binding.eventDateEditText.setOnClickListener { configureDatePicker() }
         binding.eventTimeEditText.setOnClickListener { configureTimePicker() }
+    }
+
+    private fun createEvent(): Boolean {
+        val name = getStringFromTextInput(binding.eventNameTextInput)
+        val date = getStringFromTextInput(binding.eventDateTextInput)
+        val time = getStringFromTextInput(binding.eventTimeTextInput)
+        val eventToAdd = PlainEventData(name, date, time)
+        addEventListener(eventToAdd)
+        return true
+    }
+
+    private fun getStringFromTextInput(textInput: TextInputLayout): String {
+        return textInput.editText?.text.toString()
     }
 
     private fun configureDatePicker() {

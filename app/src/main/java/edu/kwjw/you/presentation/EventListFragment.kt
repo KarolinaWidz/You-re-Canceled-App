@@ -12,6 +12,7 @@ import edu.kwjw.you.databinding.FragmentEventListBinding
 import edu.kwjw.you.presentation.adapter.EventListAdapter
 import edu.kwjw.you.presentation.uiState.EventsForUserHolder
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
+import edu.kwjw.you.util.ApiResult
 
 @AndroidEntryPoint
 class EventListFragment : Fragment(R.layout.fragment_event_list) {
@@ -27,7 +28,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         initList()
         binding.fab.setOnClickListener { showAddEventDialog() }
         viewModel.getEvents(1)
-
     }
 
     override fun onDestroy() {
@@ -45,24 +45,34 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     private fun setDataForList(eventState: EventsForUserHolder) {
         adapter.submitList(eventState.data)
         when (eventState.state) {
-            EventsForUserHolder.EventState.LOADING -> changeLayout(View.VISIBLE, R.drawable.ic_wait)
-            EventsForUserHolder.EventState.SUCCESS -> changeLayout(View.GONE, null)
-            EventsForUserHolder.EventState.ERROR -> changeLayout(View.VISIBLE, R.drawable.ic_error)
+            EventsForUserHolder.EventState.LOADING -> changeLayout(View.GONE, View.VISIBLE, null)
+            EventsForUserHolder.EventState.SUCCESS -> changeLayout(View.GONE, View.GONE, null)
+            EventsForUserHolder.EventState.ERROR -> changeLayout(
+                View.VISIBLE,
+                View.GONE,
+                R.drawable.ic_error
+            )
         }
     }
 
-    private fun changeLayout(visibility: Int, drawable: Int?) {
+    private fun changeLayout(visibility: Int, progressVisibility: Int, drawable: Int?) {
         drawable?.let { binding.statusImage.setImageResource(drawable) }
         binding.statusImage.visibility = visibility
+        binding.progressCircular.visibility = progressVisibility
     }
 
     private fun showAddEventDialog() {
         val dialog = AddEventDialogFragment()
         dialog.addEventListener =
-            { text1, text2, text3 ->
-                viewModel.addNewEvent(text1, text2, text3)
+            { data ->
+                viewModel.addNewEvent(data)
                 findNavController().navigate(R.id.eventListFragment)
+                dialog.dismiss()
             }
+        viewModel.addEventApiResult.observe(viewLifecycleOwner) { result ->
+            if (result is ApiResult.Success){dialog.dismiss()}
+            //todo: finish
+        }
         dialog.show(parentFragmentManager, ADD_EVENT_TAG)
     }
 

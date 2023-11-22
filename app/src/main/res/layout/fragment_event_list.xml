@@ -27,6 +27,15 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/status"
         android:padding="100dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="match_parent"
+        android:id="@+id/progress_circular"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:indeterminate="true"
         android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,8 +44,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/add_new_event"
         android:src="@drawable/ic_add"
-        app:layout_anchor="@id/bottom_app_bar"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+        app:layout_anchor="@id/bottom_app_bar" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.kwjw.you.domain.model.Event
+import edu.kwjw.you.domain.model.PlainEventData
 import edu.kwjw.you.domain.usecase.AddNewEvent
 import edu.kwjw.you.domain.usecase.GetEventsForUser
 import edu.kwjw.you.presentation.uiState.EventsForUserHolder
@@ -20,7 +21,7 @@ class EventListViewModel @Inject constructor(
     private val addNewEvent: AddNewEvent
 ) :
     ViewModel() {
-    private val _eventsState = MutableLiveData(EventsForUserHolder())
+    private val _eventsState = MutableLiveData<EventsForUserHolder>()
     val eventsState: LiveData<EventsForUserHolder> = _eventsState
 
     private val _addEventApiResult = MutableLiveData<ApiResult<Event>>()
@@ -49,9 +50,9 @@ class EventListViewModel @Inject constructor(
         }
     }
 
-    fun addNewEvent(nameText: String, dateText: String, timeText: String) {
+    fun addNewEvent(plainEventData: PlainEventData) {
         viewModelScope.launch {
-            addNewEvent(userId.value!!, nameText).collectLatest {
+            addNewEvent(userId.value!!, plainEventData).collectLatest {
                 _addEventApiResult.value = it
             }
         }
