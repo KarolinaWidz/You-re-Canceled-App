@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,6 +18,17 @@
             app:navigationIcon="@drawable/ic_close"
             tools:ignore="RtlSymmetry" />
     </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_linear"
+        style="@style/Widget.Material3.LinearProgressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

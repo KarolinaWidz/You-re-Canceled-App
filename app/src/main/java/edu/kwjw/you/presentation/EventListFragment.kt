@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.databinding.FragmentEventListBinding
 import edu.kwjw.you.presentation.adapter.EventListAdapter
-import edu.kwjw.you.presentation.uiState.EventsForUserHolder
+import edu.kwjw.you.presentation.uiState.UiEvent
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
 
 
@@ -41,26 +41,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         adapter = EventListAdapter()
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-        viewModel.eventsState.observe(viewLifecycleOwner) { result -> setDataForList(result) }
-    }
-
-    private fun setDataForList(eventState: EventsForUserHolder) {
-        adapter.submitList(eventState.data)
-        when (eventState.state) {
-            EventsForUserHolder.EventState.LOADING -> changeLayout(View.GONE, View.VISIBLE, null)
-            EventsForUserHolder.EventState.SUCCESS -> changeLayout(View.GONE, View.GONE, null)
-            EventsForUserHolder.EventState.ERROR -> changeLayout(
-                View.VISIBLE,
-                View.GONE,
-                R.drawable.ic_error
-            )
-        }
-    }
-
-    private fun changeLayout(visibility: Int, progressVisibility: Int, drawable: Int?) {
-        drawable?.let { binding.statusImage.setImageResource(drawable) }
-        binding.statusImage.visibility = visibility
-        binding.progressCircular.visibility = progressVisibility
     }
 
     private fun showAddEventDialog() {
@@ -84,8 +64,33 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
                 Snackbar.LENGTH_SHORT
             ).show()
 
+            is UiEvent.EventListUpdate -> setDataForList(event)
             UiEvent.DismissDialog -> dismissDialogIfSuccess()
         }
+    }
+
+    private fun setDataForList(event: UiEvent.EventListUpdate) {
+        adapter.submitList(event.data)
+        when (event.state) {
+            UiEvent.EventListUpdate.EventState.LOADING -> changeLayout(
+                View.GONE,
+                View.VISIBLE,
+                null
+            )
+
+            UiEvent.EventListUpdate.EventState.SUCCESS -> changeLayout(View.GONE, View.GONE, null)
+            UiEvent.EventListUpdate.EventState.ERROR -> changeLayout(
+                View.VISIBLE,
+                View.GONE,
+                R.drawable.ic_error
+            )
+        }
+    }
+
+    private fun changeLayout(visibility: Int, progressVisibility: Int, drawable: Int?) {
+        drawable?.let { binding.statusImage.setImageResource(drawable) }
+        binding.statusImage.visibility = visibility
+        binding.progressCircular.visibility = progressVisibility
     }
 
     private fun dismissDialogIfSuccess() {

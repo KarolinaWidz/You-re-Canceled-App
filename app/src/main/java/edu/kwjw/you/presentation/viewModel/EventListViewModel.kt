@@ -9,8 +9,7 @@ import edu.kwjw.you.domain.model.PlainEventData
 import edu.kwjw.you.domain.usecase.AddNewEvent
 import edu.kwjw.you.domain.usecase.GetUserEvent
 import edu.kwjw.you.exceptions.InvalidEventDataException
-import edu.kwjw.you.presentation.UiEvent
-import edu.kwjw.you.presentation.uiState.EventsForUserHolder
+import edu.kwjw.you.presentation.uiState.UiEvent
 import edu.kwjw.you.util.ApiResult
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,8 +21,6 @@ class EventListViewModel @Inject constructor(
     private val addNewEvent: AddNewEvent
 ) :
     ViewModel() {
-    private val _eventsState = MutableLiveData<EventsForUserHolder>()
-    val eventsState: LiveData<EventsForUserHolder> = _eventsState
 
     private val _uiEvent = MutableLiveData<UiEvent>()
     val uiEvent: LiveData<UiEvent> get() = _uiEvent
@@ -34,20 +31,18 @@ class EventListViewModel @Inject constructor(
     fun getEvents(userId: Int) {
         viewModelScope.launch {
             getUserEvent(userId).collectLatest {
-                _eventsState.value = when (it) {
-                    is ApiResult.HttpError, is ApiResult.NetworkError -> EventsForUserHolder(
-                        state = EventsForUserHolder.EventState.ERROR
+                _uiEvent.value = when (it) {
+                    is ApiResult.HttpError, is ApiResult.NetworkError -> UiEvent.EventListUpdate(
+                        state = UiEvent.EventListUpdate.EventState.ERROR
                     )
 
-                    is ApiResult.Loading -> EventsForUserHolder()
-
-                    is ApiResult.Success -> EventsForUserHolder(
+                    ApiResult.Loading -> UiEvent.EventListUpdate()
+                    is ApiResult.Success -> UiEvent.EventListUpdate(
                         data = it.data,
-                        state = EventsForUserHolder.EventState.SUCCESS
+                        state = UiEvent.EventListUpdate.EventState.SUCCESS
                     )
                 }
             }
-
         }
     }
 
@@ -70,7 +65,7 @@ class EventListViewModel @Inject constructor(
                         }
 
                         else -> {
-                            /*loading*/
+                            /*Loading*/
                         }
                     }
                 }
