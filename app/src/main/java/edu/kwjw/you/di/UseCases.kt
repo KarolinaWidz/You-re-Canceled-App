@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import edu.kwjw.you.data.repository.EventRepository
 import edu.kwjw.you.domain.usecase.AddNewEvent
-import edu.kwjw.you.domain.usecase.GetEventsForUser
+import edu.kwjw.you.domain.usecase.GetUserEvent
 import javax.inject.Singleton
 
 @Module
@@ -15,8 +15,8 @@ object UseCases {
 
     @Provides
     @Singleton
-    fun provideEventListUseCase(repository: EventRepository): GetEventsForUser {
-        return GetEventsForUser(repository)
+    fun provideEventListUseCase(repository: EventRepository): GetUserEvent {
+        return GetUserEvent(repository)
     }
 
     @Provides
