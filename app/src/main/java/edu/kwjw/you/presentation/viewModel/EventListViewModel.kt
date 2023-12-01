@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.kwjw.you.domain.model.Event
 import edu.kwjw.you.domain.model.PlainEventData
 import edu.kwjw.you.domain.usecase.AddNewEvent
 import edu.kwjw.you.domain.usecase.GetUserEvent
@@ -25,9 +24,6 @@ class EventListViewModel @Inject constructor(
     ViewModel() {
     private val _eventsState = MutableLiveData<EventsForUserHolder>()
     val eventsState: LiveData<EventsForUserHolder> = _eventsState
-
-    private val _addEventApiResult = MutableLiveData<ApiResult<Event>>()
-    val addEventApiResult: LiveData<ApiResult<Event>> get() = _addEventApiResult
 
     private val _uiEvent = MutableLiveData<UiEvent>()
     val uiEvent: LiveData<UiEvent> get() = _uiEvent
@@ -67,9 +63,10 @@ class EventListViewModel @Inject constructor(
                             UiEvent.ShowDialogSnackbar("Network issues. Please try again.")
 
                         is ApiResult.Success -> {
+                            _uiEvent.value = UiEvent.DismissDialog
                             _uiEvent.value =
                                 UiEvent.ShowListSnackbar("Successfully added new event")
-                            _addEventApiResult.value = it
+
                         }
 
                         else -> {

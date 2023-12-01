@@ -9,11 +9,9 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.databinding.FragmentEventListBinding
-import edu.kwjw.you.domain.model.Event
 import edu.kwjw.you.presentation.adapter.EventListAdapter
 import edu.kwjw.you.presentation.uiState.EventsForUserHolder
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
-import edu.kwjw.you.util.ApiResult
 
 
 @AndroidEntryPoint
@@ -31,7 +29,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         initList()
         binding.fab.setOnClickListener { showAddEventDialog() }
         viewModel.getEvents(1)
-        viewModel.addEventApiResult.observe(viewLifecycleOwner) { dismissDialogIfSuccess(it) }
         viewModel.uiEvent.observe(viewLifecycleOwner) { handleEvent(it) }
     }
 
@@ -72,12 +69,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         dialog.show(parentFragmentManager, ADD_EVENT_TAG)
     }
 
-    private fun dismissDialogIfSuccess(apiResult: ApiResult<Event>) {
-        if (apiResult is ApiResult.Success) {
-            viewModel.getEvents(1)
-            dialog.dismiss()
-        }
-    }
 
     private fun handleEvent(event: UiEvent) {
         when (event) {
@@ -92,8 +83,14 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
                 event.message,
                 Snackbar.LENGTH_SHORT
             ).show()
-        }
 
+            UiEvent.DismissDialog -> dismissDialogIfSuccess()
+        }
+    }
+
+    private fun dismissDialogIfSuccess() {
+        viewModel.getEvents(1)
+        dialog.dismiss()
     }
 
     companion object {
