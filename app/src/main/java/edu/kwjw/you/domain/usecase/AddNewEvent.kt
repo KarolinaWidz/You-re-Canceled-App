@@ -4,27 +4,27 @@ import edu.kwjw.you.data.remote.dto.AddEventDto
 import edu.kwjw.you.data.repository.EventRepository
 import edu.kwjw.you.domain.model.Event
 import edu.kwjw.you.domain.model.PlainEventData
+import edu.kwjw.you.exceptions.InvalidEventDataException
 import edu.kwjw.you.util.ApiResult
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class NewEvent @Inject constructor(private val repository: EventRepository) {
+class AddNewEvent @Inject constructor(private val repository: EventRepository) {
 
-    fun add(userId: Int, plainEventData: PlainEventData): Flow<ApiResult<Event>> {
+    operator fun invoke(userId: Int, plainEventData: PlainEventData): Flow<ApiResult<Event>> {
+        if (!isValid(plainEventData)) {
+            throw InvalidEventDataException()
+        }
         val dateTime = createDateTimeObject(plainEventData.date, plainEventData.time)
         return repository.addEvent(
             AddEventDto(userId, plainEventData.name, dateTime)
         )
     }
 
-    fun isValid(plainEventData: PlainEventData): Boolean {
-        if (isAnyBlank(plainEventData)) {
-            return false
-        }
-        createDateTimeObject(plainEventData.date, plainEventData.time)
-        return true
+    private fun isValid(plainEventData: PlainEventData): Boolean {
+        return !isAnyBlank(plainEventData)
     }
 
     private fun isAnyBlank(plainEventData: PlainEventData): Boolean {

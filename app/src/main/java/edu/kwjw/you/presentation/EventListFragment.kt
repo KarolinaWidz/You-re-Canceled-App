@@ -5,12 +5,16 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.databinding.FragmentEventListBinding
+import edu.kwjw.you.domain.model.Event
 import edu.kwjw.you.presentation.adapter.EventListAdapter
 import edu.kwjw.you.presentation.uiState.EventsForUserHolder
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
+import edu.kwjw.you.util.ApiResult
+
 
 @AndroidEntryPoint
 class EventListFragment : Fragment(R.layout.fragment_event_list) {
@@ -19,6 +23,7 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     private val binding get() = _binding!!
     private lateinit var adapter: EventListAdapter
     private val viewModel: EventListViewModel by viewModels()
+    private lateinit var dialog: AddEventDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,8 +31,8 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         initList()
         binding.fab.setOnClickListener { showAddEventDialog() }
         viewModel.getEvents(1)
-        viewModel.addEventApiResult.observe(viewLifecycleOwner) { viewModel.getEvents(1) }
-        //todo: add snack bar for results
+        viewModel.addEventApiResult.observe(viewLifecycleOwner) { dismissDialogIfSuccess(it) }
+        viewModel.uiEvent.observe(viewLifecycleOwner) { handleEvent(it) }
     }
 
     override fun onDestroy() {
@@ -62,16 +67,33 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     }
 
     private fun showAddEventDialog() {
-        val dialog = AddEventDialogFragment()
-        dialog.addEventListener =
-            { data ->
-                if (viewModel.isNewEventValid(data)) {
-                    viewModel.addNewEvent(data)
-                    dialog.dismiss()
-                }
-                //todo: add snack bar if invalid
-            }
+        dialog = AddEventDialogFragment()
+        dialog.addEventListener = { data -> viewModel.addNewEvent(data) }
         dialog.show(parentFragmentManager, ADD_EVENT_TAG)
+    }
+
+    private fun dismissDialogIfSuccess(apiResult: ApiResult<Event>) {
+        if (apiResult is ApiResult.Success) {
+            viewModel.getEvents(1)
+            dialog.dismiss()
+        }
+    }
+
+    private fun handleEvent(event: UiEvent) {
+        when (event) {
+            is UiEvent.ShowDialogSnackbar -> Snackbar.make(
+                dialog.requireView(),
+                event.message,
+                Snackbar.LENGTH_SHORT
+            ).show()
+
+            is UiEvent.ShowListSnackbar -> Snackbar.make(
+                requireView(),
+                event.message,
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+
     }
 
     companion object {
