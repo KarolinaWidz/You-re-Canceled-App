@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
@@ -28,6 +29,7 @@ import edu.kwjw.you.presentation.ui.theme.CornerRadiusMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingSmall
 import edu.kwjw.you.presentation.ui.theme.SizeMedium
+import edu.kwjw.you.util.toFullDateString
 import java.time.LocalDateTime
 
 @Composable
@@ -81,6 +83,7 @@ private fun EventName(name: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.padding(bottom = PaddingMedium),
         text = name,
+        fontWeight = FontWeight.Bold,
         style = MaterialTheme.typography.titleSmall
     )
 }
@@ -89,7 +92,7 @@ private fun EventName(name: String, modifier: Modifier = Modifier) {
 private fun EventDate(date: LocalDateTime, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier,
-        text = date.toString(),
+        text = date.toFullDateString(),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
@@ -99,7 +102,8 @@ private fun EventDate(date: LocalDateTime, modifier: Modifier = Modifier) {
 private fun EventStatusText(status: EventStatus, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.padding(PaddingMedium),
-        text = status.name,
+        text = stringResource(status.statusId),
+        fontWeight = FontWeight.Medium,
         style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.primary
     )
@@ -108,5 +112,11 @@ private fun EventStatusText(status: EventStatus, modifier: Modifier = Modifier) 
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 private fun EventCardPreview() {
-    EventCard(eventItem = EventItem())
+    EventCard(
+        eventItem = EventItem(
+            name = "Designer meeting",
+            date = LocalDateTime.now(),
+            status = EventStatus.ATTENDING
+        )
+    )
 }

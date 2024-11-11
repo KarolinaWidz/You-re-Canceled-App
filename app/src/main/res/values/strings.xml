@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">You\'re Canceled</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name" translatable="false">You\'re Canceled</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="add_new_event">Add new event</string>
     <string name="home">Home</string>
     <string name="user">User</string>
@@ -14,4 +14,6 @@
     <string name="save">Save</string>
     <string name="time">Time</string>
     <string name="event_image">Event image</string>
+    <string name="attending">Attending</string>
+    <string name="cancelled">Cancelled</string>
 </resources>

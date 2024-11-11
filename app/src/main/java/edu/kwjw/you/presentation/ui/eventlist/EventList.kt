@@ -9,11 +9,12 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-internal fun EventList(modifier: Modifier = Modifier,
-                       events: ImmutableList<EventItem> = persistentListOf(EventItem())
-){
-    LazyColumn(modifier = modifier){
-        items(events){ event ->
+internal fun EventList(
+    modifier: Modifier = Modifier,
+    events: ImmutableList<EventItem> = persistentListOf()
+) {
+    LazyColumn(modifier = modifier) {
+        items(events) { event ->
             EventCard(eventItem = event)
         }
     }

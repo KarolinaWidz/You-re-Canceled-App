@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_new_event">Dodaj nowe wydarzenie</string>
+    <string name="home">Strona domowa</string>
+    <string name="user">Użytkownik</string>
+    <string name="friends">Znajomi</string>
+    <string name="settings">Ustawienia</string>
+    <string name="status">Status</string>
+    <string name="name">Nazwa</string>
+    <string name="date">Data</string>
+    <string name="add">Dodaj</string>
+    <string name="cancel">Anuluj</string>
+    <string name="save">Zapisz</string>
+    <string name="time">Godzina</string>
+    <string name="event_image">Obraz wydarzenia</string>
+    <string name="attending">Biorę udział</string>
+    <string name="cancelled">Odwołane</string>
+</resources>
