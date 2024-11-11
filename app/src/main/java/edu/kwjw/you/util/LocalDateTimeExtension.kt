@@ -7,5 +7,5 @@ import java.time.format.DateTimeFormatter
 fun LocalDateTime.toFullDateString(): String = this.format(DateTimeFormatter.ofPattern(FULL_DATE_PATTERN))
 
 private object LocalDateTimeExtensionConst {
-    const val FULL_DATE_PATTERN = "EEEE, dd MMM YYYY"
+    const val FULL_DATE_PATTERN = "EEEE, dd MMM yyyy"
 }
