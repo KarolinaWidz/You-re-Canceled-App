@@ -2,14 +2,15 @@ package edu.kwjw.you.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.databinding.FragmentEventListBinding
-import edu.kwjw.you.presentation.adapter.EventListAdapter
+import edu.kwjw.you.presentation.ui.eventlist.EventList
+import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.uiState.UiEvent
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
 
@@ -19,14 +20,20 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
 
     private var _binding: FragmentEventListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: EventListAdapter
     private val viewModel: EventListViewModel by viewModels()
     private lateinit var dialog: AddEventDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentEventListBinding.bind(view)
-        initList()
+        binding.eventList.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                AppTheme {
+                    EventList()
+                }
+            }
+        }
         binding.fab.setOnClickListener { showAddEventDialog() }
         viewModel.getEvents(1)
         viewModel.uiEvent.observe(viewLifecycleOwner) { handleEvent(it) }
@@ -35,12 +42,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun initList() {
-        adapter = EventListAdapter()
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
     }
 
     private fun showAddEventDialog() {
@@ -70,7 +71,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     }
 
     private fun setDataForList(event: UiEvent.EventListUpdate) {
-        adapter.submitList(event.data)
         when (event.state) {
             UiEvent.EventListUpdate.EventState.LOADING -> changeLayout(
                 View.GONE,
