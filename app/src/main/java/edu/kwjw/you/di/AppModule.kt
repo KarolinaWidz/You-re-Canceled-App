@@ -7,11 +7,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import edu.kwjw.you.data.repository.EventRepository
-import edu.kwjw.you.data.repository.EventOnlineRepository
 import edu.kwjw.you.data.remote.EventService
 import edu.kwjw.you.data.remote.adapter.LocalDateTimeAdapter
 import edu.kwjw.you.data.remote.adapter.UuidAdapter
+import edu.kwjw.you.data.repository.EventOnlineRepository
+import edu.kwjw.you.data.repository.EventRepository
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -20,7 +20,7 @@ import javax.inject.Singleton
 @Module
 object AppModule {
 
-    private const val BASE_URL = "http://10.0.2.2:8080"
+    private const val BASE_URL = "http://192.168.100.6:8080"
     private val moshi =
         Moshi.Builder()
             .add(UuidAdapter())
