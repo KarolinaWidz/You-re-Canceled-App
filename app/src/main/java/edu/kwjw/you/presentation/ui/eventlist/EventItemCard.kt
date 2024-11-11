@@ -69,9 +69,9 @@ private fun EventImage(imageUrl: String?, modifier: Modifier = Modifier) {
         model = ImageRequest.Builder(context = LocalContext.current)
             .data(imageUrl)
             .build(),
-        fallback = painterResource(R.drawable.ic_event_date),
-        placeholder = painterResource(R.drawable.ic_event_date),
-        error = painterResource(R.drawable.ic_launcher_background),
+        fallback = painterResource(R.drawable.ic_default_event),
+        placeholder = painterResource(R.drawable.ic_default_event),
+        error = painterResource(R.drawable.ic_default_event),
         contentDescription = stringResource(R.string.event_image),
     )
 }
