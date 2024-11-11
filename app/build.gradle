@@ -51,7 +51,7 @@ dependencies {
 //    viewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
 //    coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
 //    livedata
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.8.7"
 //    retrofit
@@ -86,7 +86,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
     testImplementation 'io.mockk:mockk-android:1.13.5'
     testImplementation 'io.mockk:mockk-agent:1.13.5'
