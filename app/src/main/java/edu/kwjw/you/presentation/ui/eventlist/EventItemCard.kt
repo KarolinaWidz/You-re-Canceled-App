@@ -102,7 +102,7 @@ private fun EventDate(date: LocalDateTime, modifier: Modifier = Modifier) {
 private fun EventStatusText(status: EventStatus, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.padding(PaddingMedium),
-        text = stringResource(status.statusId),
+        text = stringResource(status.statusId).uppercase(),
         fontWeight = FontWeight.Medium,
         style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.primary
