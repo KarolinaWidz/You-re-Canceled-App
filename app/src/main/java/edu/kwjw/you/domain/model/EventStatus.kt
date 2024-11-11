@@ -1,5 +1,8 @@
 package edu.kwjw.you.domain.model
 
-enum class EventStatus {
-    ATTENDING, CANCELLED
+import edu.kwjw.you.R
+
+enum class EventStatus(val statusId: Int) {
+    ATTENDING(statusId = R.string.attending),
+    CANCELLED(statusId = R.string.cancelled)
 }

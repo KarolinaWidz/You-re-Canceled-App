@@ -9,10 +9,12 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import edu.kwjw.you.R
 import edu.kwjw.you.databinding.FragmentEventListBinding
+import edu.kwjw.you.presentation.ui.eventlist.EventItem
 import edu.kwjw.you.presentation.ui.eventlist.EventList
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.uiState.UiEvent
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
+import kotlinx.collections.immutable.toImmutableList
 
 
 @AndroidEntryPoint
@@ -71,6 +73,20 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     }
 
     private fun setDataForList(event: UiEvent.EventListUpdate) {
+        binding.eventList.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                AppTheme {
+                    EventList(events = event.data.map {
+                        EventItem(
+                            name = it.name,
+                            date = it.date,
+                            status = it.status
+                        )
+                    }.toImmutableList())
+                }
+            }
+        }
         when (event.state) {
             UiEvent.EventListUpdate.EventState.LOADING -> changeLayout(
                 View.GONE,
