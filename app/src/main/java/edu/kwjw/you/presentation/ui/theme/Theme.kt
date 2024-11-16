@@ -11,12 +11,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-@Immutable
-data class ExtendedColorScheme(
-    val customColor1: ColorFamily,
-    val customColor2: ColorFamily,
-)
-
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
     onPrimary = onPrimaryLight,

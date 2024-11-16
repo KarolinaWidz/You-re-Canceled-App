@@ -16,4 +16,5 @@
     <string name="event_image">Event image</string>
     <string name="attending">Attending</string>
     <string name="cancelled">Cancelled</string>
+    <string name="event_details">Event Details</string>
 </resources>
