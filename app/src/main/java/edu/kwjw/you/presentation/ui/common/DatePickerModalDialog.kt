@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import edu.kwjw.you.R
+import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.util.FutureDates
 import java.util.Calendar
 
@@ -51,5 +52,7 @@ internal fun DatePickerModalDialog(
 @Composable
 @Preview(showBackground = true)
 private fun DatePickerDialogPreview() {
-    DatePickerModalDialog()
+    AppTheme {
+        DatePickerModalDialog()
+    }
 }

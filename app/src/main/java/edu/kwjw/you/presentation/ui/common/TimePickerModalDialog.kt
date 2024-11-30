@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import edu.kwjw.you.R
+import edu.kwjw.you.presentation.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,5 +57,7 @@ internal fun TimePickerModalDialog(
 @Composable
 @Preview(showBackground = true)
 private fun TimePickerDialogPreview() {
-    TimePickerModalDialog()
+    AppTheme {
+        TimePickerModalDialog()
+    }
 }

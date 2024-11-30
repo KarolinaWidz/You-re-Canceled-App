@@ -85,7 +85,7 @@ private fun EventNameField(
         isError = isError,
         leadingIcon = {
             Icon(
-                painterResource(R.drawable.ic_event_name),
+                painter = painterResource(R.drawable.ic_event_name),
                 contentDescription = null
             )
         },
@@ -115,7 +115,7 @@ private fun EventDate(
         isError = isError,
         leadingIcon = {
             Icon(
-                painterResource(R.drawable.ic_event_date),
+                painter = painterResource(R.drawable.ic_event_date),
                 contentDescription = null
             )
         },
@@ -155,7 +155,7 @@ private fun EventTime(
         isError = isError,
         leadingIcon = {
             Icon(
-                painterResource(R.drawable.ic_event_time),
+                painter = painterResource(R.drawable.ic_event_time),
                 contentDescription = null
             )
         },
