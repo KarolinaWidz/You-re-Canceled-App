@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import edu.kwjw.you.presentation.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -23,5 +24,7 @@ internal fun EventList(
 @Preview
 @Composable
 private fun EventCardPreview() {
-    EventList()
+    AppTheme {
+        EventList()
+    }
 }

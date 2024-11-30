@@ -23,4 +23,7 @@
     <string name="event_date_value_is_required_please_provide_a_valid_event_date">Data wydarzenia jest wymagana. Proszę podać prawidłową datę wydarzenia</string>
     <string name="event_time_value_is_required_please_provide_a_valid_event_time">Godzina wydarzenia jest wymagana. Proszę podać prawidłową godzinę wydarzenia</string>
     <string name="event_time">Godzina wydarzenia</string>
+    <string name="home_screen">Ekran domowy</string>
+    <string name="profile_screen">Ekran profilu</string>
+    <string name="friends_screen">Ekran znajomych</string>
 </resources>

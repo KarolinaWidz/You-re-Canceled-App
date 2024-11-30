@@ -25,6 +25,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import edu.kwjw.you.R
 import edu.kwjw.you.domain.model.EventStatus
+import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.theme.CornerRadiusMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingSmall
@@ -112,11 +113,13 @@ private fun EventStatusText(status: EventStatus, modifier: Modifier = Modifier) 
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 private fun EventCardPreview() {
-    EventCard(
-        eventItem = EventItem(
-            name = "Designer meeting",
-            date = LocalDateTime.now(),
-            status = EventStatus.ATTENDING
+    AppTheme {
+        EventCard(
+            eventItem = EventItem(
+                name = "Designer meeting",
+                date = LocalDateTime.now(),
+                status = EventStatus.ATTENDING
+            )
         )
-    )
+    }
 }
