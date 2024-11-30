@@ -13,6 +13,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -100,7 +104,7 @@ private fun EventDate(
     onDateChanged: (Long?) -> Unit,
     isError: Boolean = false,
 ) {
-
+    var isClicked by rememberSaveable { mutableStateOf(false) }
     ClickableTextField(
         modifier = modifier
             .fillMaxWidth()
@@ -120,9 +124,17 @@ private fun EventDate(
                 ShowError(R.string.event_date_value_is_required_please_provide_a_valid_event_date)
             }
         },
-        onClicked = { DatePickerModalDialog(
-            onDateSelected = onDateChanged
-        ) }
+        onClicked = {
+            DatePickerModalDialog(
+                onDismiss = { isClicked = false },
+                onDateSelected = {
+                    onDateChanged
+                    isClicked = false
+                }
+            )
+        },
+        isClicked = isClicked,
+        onIsClickedChanged = { isClicked = !isClicked }
     )
 }
 
@@ -134,7 +146,7 @@ private fun EventTime(
     onTimeChanged: (TimePickerState) -> Unit,
     isError: Boolean = false,
 ) {
-
+    var isClicked by rememberSaveable { mutableStateOf(false) }
     ClickableTextField(
         modifier = modifier.fillMaxWidth(),
         value = time,
@@ -152,7 +164,14 @@ private fun EventTime(
                 ShowError(R.string.event_time_value_is_required_please_provide_a_valid_event_time)
             }
         },
-        onClicked = { TimePickerModalDialog(onTimeSelected = onTimeChanged) }
+        onClicked = {
+            TimePickerModalDialog(onTimeSelected = {
+                onTimeChanged
+                isClicked = false
+            })
+        },
+        isClicked = isClicked,
+        onIsClickedChanged = { isClicked = !isClicked }
     )
 }
 
