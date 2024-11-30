@@ -20,7 +20,7 @@
     <string name="event_name_value_is_required_please_provide_a_valid_event_name">Event name value is required. Please provide a valid event name</string>
     <string name="event_name">Event name</string>
     <string name="dismiss">Dismiss</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="event_date">Event date</string>
     <string name="event_date_value_is_required_please_provide_a_valid_event_date">Event date value is required. Please provide a valid event date</string>
 </resources>

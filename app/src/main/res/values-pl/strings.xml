@@ -15,4 +15,10 @@
     <string name="event_image">Obraz wydarzenia</string>
     <string name="attending">Biorę udział</string>
     <string name="cancelled">Odwołane</string>
+    <string name="event_details">Szczegóły wydarzenia</string>
+    <string name="event_name_value_is_required_please_provide_a_valid_event_name">Nazwa wydarzenia jest wymagana. Proszę podać prawidłową nazwę wydarzenia</string>
+    <string name="event_name">Nazwa wydarzenia</string>
+    <string name="dismiss">Odrzuć</string>
+    <string name="event_date">Data wydarzenia</string>
+    <string name="event_date_value_is_required_please_provide_a_valid_event_date">Data wydarzenia jest wymagana. Proszę podać prawidłową datę wydarzenia</string>
 </resources>
