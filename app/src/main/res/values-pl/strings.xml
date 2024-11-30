@@ -21,4 +21,6 @@
     <string name="dismiss">Odrzuć</string>
     <string name="event_date">Data wydarzenia</string>
     <string name="event_date_value_is_required_please_provide_a_valid_event_date">Data wydarzenia jest wymagana. Proszę podać prawidłową datę wydarzenia</string>
+    <string name="event_time_value_is_required_please_provide_a_valid_event_time">Godzina wydarzenia jest wymagana. Proszę podać prawidłową godzinę wydarzenia</string>
+    <string name="event_time">Godzina wydarzenia</string>
 </resources>

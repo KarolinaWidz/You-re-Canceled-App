@@ -23,4 +23,6 @@
     <string name="ok" translatable="false">OK</string>
     <string name="event_date">Event date</string>
     <string name="event_date_value_is_required_please_provide_a_valid_event_date">Event date value is required. Please provide a valid event date</string>
+    <string name="event_time_value_is_required_please_provide_a_valid_event_time">Event time value is required. Please provide a valid event time</string>
+    <string name="event_time">Event time</string>
 </resources>
