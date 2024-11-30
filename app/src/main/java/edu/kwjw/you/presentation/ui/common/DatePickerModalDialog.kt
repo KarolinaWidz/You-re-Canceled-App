@@ -1,33 +1,33 @@
-package edu.kwjw.you.presentation.ui.addnewevent
+package edu.kwjw.you.presentation.ui.common
 
-import android.icu.util.Calendar
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TimePicker
-import androidx.compose.material3.rememberTimePickerState
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import edu.kwjw.you.R
+import edu.kwjw.you.presentation.ui.util.FutureDates
+import java.util.Calendar
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun TimePickerDialog(
+internal fun DatePickerModalDialog(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
     onConfirm: () -> Unit = {}
 ) {
-    val currentTime = Calendar.getInstance()
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime[Calendar.HOUR_OF_DAY],
-        initialMinute = currentTime[Calendar.MINUTE],
-        is24Hour = true
+    Calendar.getInstance()
+    val datePickerState = rememberDatePickerState(
+        selectableDates = FutureDates()
     )
 
-    AlertDialog(
+    DatePickerDialog(
         modifier = modifier,
         onDismissRequest = onDismiss,
         dismissButton = {
@@ -40,16 +40,13 @@ internal fun TimePickerDialog(
                 Text(stringResource(R.string.ok))
             }
         },
-
-        text = {
-            TimePicker(state = timePickerState)
-        }
-
-    )
+    ) {
+        DatePicker(state = datePickerState)
+    }
 }
 
 @Composable
 @Preview(showBackground = true)
-private fun TimePickerDialogPreview() {
-    TimePickerDialog()
+private fun DatePickerDialogPreview() {
+    DatePickerModalDialog()
 }
