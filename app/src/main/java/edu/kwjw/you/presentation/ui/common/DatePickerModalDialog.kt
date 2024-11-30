@@ -41,7 +41,7 @@ internal fun DatePickerModalDialog(
             }
         },
     ) {
-        DatePicker(state = datePickerState)
+        DatePicker(state = datePickerState, showModeToggle = false)
     }
 }
 
