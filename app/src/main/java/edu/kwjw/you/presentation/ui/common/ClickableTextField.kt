@@ -5,11 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
@@ -22,14 +18,15 @@ internal fun ClickableTextField(
     label: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
+    isClicked: Boolean = false,
+    onIsClickedChanged: (Boolean) -> Unit,
     onClicked: @Composable (() -> Unit)? = null,
 ) {
-    var isClicked by rememberSaveable { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
 
     OutlinedTextField(
         modifier = modifier.clickable(
-            onClick = { isClicked = true },
+            onClick = { onIsClickedChanged(true) },
             interactionSource = interactionSource,
             indication = null
         ),
