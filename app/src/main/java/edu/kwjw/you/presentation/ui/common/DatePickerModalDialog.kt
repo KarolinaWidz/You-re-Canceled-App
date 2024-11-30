@@ -20,7 +20,7 @@ import java.util.Calendar
 internal fun DatePickerModalDialog(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
-    onConfirm: () -> Unit = {}
+    onDateSelected: (Long?) -> Unit = {}
 ) {
     Calendar.getInstance()
     val datePickerState = rememberDatePickerState(
@@ -36,7 +36,10 @@ internal fun DatePickerModalDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onConfirm) {
+            TextButton(onClick = {
+                onDateSelected(datePickerState.selectedDateMillis)
+                onDismiss
+            }) {
                 Text(stringResource(R.string.ok))
             }
         },

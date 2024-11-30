@@ -6,6 +6,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +19,7 @@ import edu.kwjw.you.R
 internal fun TimePickerModalDialog(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
-    onConfirm: () -> Unit = {}
+    onTimeSelected: (TimePickerState) -> Unit = {}
 ) {
     val currentTime = Calendar.getInstance()
     val timePickerState = rememberTimePickerState(
@@ -36,7 +37,10 @@ internal fun TimePickerModalDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onConfirm) {
+            TextButton(onClick = {
+                onTimeSelected(timePickerState)
+                onDismiss
+            }) {
                 Text(stringResource(R.string.ok))
             }
         },
@@ -48,6 +52,7 @@ internal fun TimePickerModalDialog(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(showBackground = true)
 private fun TimePickerDialogPreview() {

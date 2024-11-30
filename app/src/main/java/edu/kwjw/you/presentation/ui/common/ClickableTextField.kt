@@ -17,10 +17,11 @@ import androidx.compose.ui.graphics.Color
 internal fun ClickableTextField(
     modifier: Modifier = Modifier,
     value: String,
-    onValueChange: (String) -> Unit,
+    onValueChange: () -> Unit,
     isError: Boolean = false,
     label: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
     onClicked: @Composable (() -> Unit)? = null,
 ) {
     var isClicked by rememberSaveable { mutableStateOf(false) }
@@ -33,11 +34,12 @@ internal fun ClickableTextField(
             indication = null
         ),
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { onValueChange },
         label = label,
         isError = isError,
         supportingText = supportingText,
         enabled = false,
+        leadingIcon = leadingIcon,
         colors = OutlinedTextFieldDefaults.colors(
             disabledLabelColor = colorResolver(
                 isError,
@@ -54,6 +56,11 @@ internal fun ClickableTextField(
                 OutlinedTextFieldDefaults.colors().unfocusedIndicatorColor,
                 OutlinedTextFieldDefaults.colors().errorIndicatorColor
             ),
+            disabledLeadingIconColor = colorResolver(
+                isError,
+                OutlinedTextFieldDefaults.colors().unfocusedLeadingIconColor,
+                OutlinedTextFieldDefaults.colors().errorLeadingIconColor
+            )
         )
     )
 

@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import edu.kwjw.you.R
@@ -21,25 +24,33 @@ import edu.kwjw.you.presentation.ui.common.TimePickerModalDialog
 import edu.kwjw.you.presentation.ui.theme.PaddingMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingSmall
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EventDetails(
     modifier: Modifier = Modifier,
     eventName: String = "",
     onEventNameChanged: (String) -> Unit = {},
+    isEventNameError: Boolean = false,
     eventDate: String = "",
-    onEventDateChanged: (String) -> Unit = {},
+    onEventDateChanged: (Long?) -> Unit = {},
+    isEventDateError: Boolean = false,
     eventTime: String = "",
-    onEventTimeChanged: (String) -> Unit = {}
+    onEventTimeChanged: (TimePickerState) -> Unit = {},
+    isEventTimeError: Boolean = false,
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(PaddingSmall)
+            .padding(PaddingMedium)
     ) {
         EventDetailsTitle()
-        EventNameField(name = eventName, onNameChanged = onEventNameChanged)
-        EventDate(date = eventDate, onDateChanged = onEventDateChanged)
-        EventTime(time = eventTime, onTimeChanged = onEventTimeChanged)
+        EventNameField(
+            name = eventName,
+            onNameChanged = onEventNameChanged,
+            isError = isEventNameError
+        )
+        EventDate(date = eventDate, onDateChanged = onEventDateChanged, isError = isEventDateError)
+        EventTime(time = eventTime, onTimeChanged = onEventTimeChanged, isError = isEventTimeError)
     }
 }
 
@@ -60,11 +71,20 @@ private fun EventNameField(
     isError: Boolean = false
 ) {
     OutlinedTextField(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = PaddingSmall),
         value = name,
         onValueChange = onNameChanged,
+
         label = { Text(stringResource(R.string.event_name)) },
         isError = isError,
+        leadingIcon = {
+            Icon(
+                painterResource(R.drawable.ic_event_name),
+                contentDescription = null
+            )
+        },
         supportingText = {
             if (isError) {
                 ShowError(R.string.event_name_value_is_required_please_provide_a_valid_event_name)
@@ -77,45 +97,62 @@ private fun EventNameField(
 private fun EventDate(
     modifier: Modifier = Modifier,
     date: String,
-    onDateChanged: (String) -> Unit,
+    onDateChanged: (Long?) -> Unit,
     isError: Boolean = false,
 ) {
 
     ClickableTextField(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = PaddingSmall),
         value = date,
-        onValueChange = onDateChanged,
+        onValueChange = {},
         label = { Text(stringResource(R.string.event_date)) },
         isError = isError,
+        leadingIcon = {
+            Icon(
+                painterResource(R.drawable.ic_event_date),
+                contentDescription = null
+            )
+        },
         supportingText = {
             if (isError) {
                 ShowError(R.string.event_date_value_is_required_please_provide_a_valid_event_date)
             }
         },
-        onClicked = { DatePickerModalDialog() }
+        onClicked = { DatePickerModalDialog(
+            onDateSelected = onDateChanged
+        ) }
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EventTime(
     modifier: Modifier = Modifier,
     time: String,
-    onTimeChanged: (String) -> Unit,
+    onTimeChanged: (TimePickerState) -> Unit,
     isError: Boolean = false,
 ) {
 
     ClickableTextField(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         value = time,
-        onValueChange = onTimeChanged,
+        onValueChange = {},
         label = { Text(stringResource(R.string.event_time)) },
         isError = isError,
+        leadingIcon = {
+            Icon(
+                painterResource(R.drawable.ic_event_time),
+                contentDescription = null
+            )
+        },
         supportingText = {
             if (isError) {
                 ShowError(R.string.event_time_value_is_required_please_provide_a_valid_event_time)
             }
         },
-        onClicked = { TimePickerModalDialog() }
+        onClicked = { TimePickerModalDialog(onTimeSelected = onTimeChanged) }
     )
 }
 
@@ -133,6 +170,7 @@ private fun ShowError(stringId: Int, modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(showBackground = true)
 private fun EventDetailsPreview() {
