@@ -12,34 +12,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.kwjw.you.R
-import edu.kwjw.you.presentation.ui.common.BottomBar
-import edu.kwjw.you.presentation.ui.common.TopTitleBar
-import edu.kwjw.you.presentation.ui.eventlist.EventList
+import edu.kwjw.you.presentation.ui.addnewevent.AddEvent
+import edu.kwjw.you.presentation.ui.common.TopTitleBarWithBackButton
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun EventListScreen(modifier: Modifier = Modifier) {
+internal fun EventEventScreen(modifier: Modifier = Modifier) {
 
-    val title = stringResource(R.string.app_name)
+    val title = stringResource(R.string.add_new_event)
     val snackbarHost = remember { SnackbarHostState() }
 
     Scaffold(
         modifier = modifier,
-        topBar = { TopTitleBar(title = title) },
-        bottomBar = { BottomBar() },
+        topBar = { TopTitleBarWithBackButton(title = title) },
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         snackbarHost = { SnackbarHost(hostState = snackbarHost) }
     ) { contentPadding ->
-        EventList(modifier = Modifier.padding(contentPadding))
-
+        AddEvent(
+            modifier = Modifier.padding(contentPadding),
+        )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @PreviewLightDark
-private fun EventListScreenPreview() {
+private fun EventEventScreenPreview() {
     AppTheme {
-        EventListScreen()
+        EventEventScreen()
     }
 }
