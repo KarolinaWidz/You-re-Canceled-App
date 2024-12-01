@@ -5,9 +5,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import edu.kwjw.you.domain.model.EventStatus
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import java.time.LocalDateTime
 
 @Composable
 internal fun EventList(
@@ -25,6 +27,10 @@ internal fun EventList(
 @Composable
 private fun EventCardPreview() {
     AppTheme {
-        EventList()
+        EventList(events = persistentListOf(EventItem(
+            name = "Designer meeting",
+            date = LocalDateTime.now(),
+            status = EventStatus.ATTENDING
+        )))
     }
 }

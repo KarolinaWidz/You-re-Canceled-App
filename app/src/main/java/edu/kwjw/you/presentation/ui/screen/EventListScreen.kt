@@ -2,6 +2,7 @@ package edu.kwjw.you.presentation.ui.screen
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,7 +24,9 @@ internal fun EventListScreen(
     Scaffold(
         modifier = modifier,
         topBar = { TopTitleBar(title = title) },
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar() },
+        containerColor = MaterialTheme.colorScheme.surfaceContainer
+
     ) { contentPadding ->
         EventList(modifier = Modifier.padding(contentPadding))
 
