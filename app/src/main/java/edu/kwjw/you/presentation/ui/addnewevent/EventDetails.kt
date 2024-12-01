@@ -20,11 +20,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.common.ClickableTextField
 import edu.kwjw.you.presentation.ui.common.DatePickerModalDialog
 import edu.kwjw.you.presentation.ui.common.TimePickerModalDialog
+import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.theme.PaddingMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingSmall
 
@@ -44,8 +45,6 @@ internal fun EventDetails(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(PaddingMedium)
     ) {
         EventDetailsTitle()
         EventNameField(
@@ -63,7 +62,7 @@ private fun EventDetailsTitle(modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.padding(bottom = PaddingMedium),
         text = stringResource(R.string.event_details),
-        style = MaterialTheme.typography.headlineSmall
+        style = MaterialTheme.typography.titleMedium
     )
 }
 
@@ -176,7 +175,10 @@ private fun EventTime(
 }
 
 @Composable
-private fun ShowError(stringId: Int, modifier: Modifier = Modifier) {
+private fun ShowError(
+    stringId: Int,
+    modifier: Modifier = Modifier
+) {
     Row(modifier = modifier) {
         Icon(
             modifier = Modifier.padding(end = PaddingSmall),
@@ -191,7 +193,9 @@ private fun ShowError(stringId: Int, modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview(showBackground = true)
+@PreviewLightDark
 private fun EventDetailsPreview() {
-    EventDetails()
+    AppTheme {
+        EventDetails()
+    }
 }

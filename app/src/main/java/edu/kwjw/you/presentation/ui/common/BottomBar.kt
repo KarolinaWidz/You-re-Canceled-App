@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 
@@ -47,7 +47,11 @@ private fun AddItemFab(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    FloatingActionButton(modifier = modifier, onClick = onClick) {
+    FloatingActionButton(
+        modifier = modifier,
+        onClick = onClick,
+        containerColor = MaterialTheme.colorScheme.primaryContainer
+    ) {
         Icon(
             imageVector = Icons.Default.Add,
             contentDescription = stringResource(R.string.add_new_event)
@@ -95,7 +99,7 @@ private fun MenuActions(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun BottomBarPreview() {
     AppTheme {
