@@ -28,6 +28,7 @@ internal fun BottomBar(
 ) {
     BottomAppBar(
         modifier = modifier,
+        containerColor = MaterialTheme.colorScheme.inversePrimary,
         floatingActionButton = { AddItemFab(onClick = onAddNewItemClicked) },
         actions = {
             MenuActions(

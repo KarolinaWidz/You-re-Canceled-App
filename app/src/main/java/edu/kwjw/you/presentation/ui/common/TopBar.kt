@@ -6,9 +6,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 
@@ -27,6 +29,13 @@ fun TopTitleBar(
         navigationIcon = navigationIcon,
         title = { TitleText(title = title) },
         actions = actions,
+        colors = TopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+            navigationIconContentColor = MaterialTheme.colorScheme.inverseSurface,
+            titleContentColor = MaterialTheme.colorScheme.inverseSurface,
+            actionIconContentColor = MaterialTheme.colorScheme.inverseSurface,
+        )
     )
 }
 
@@ -35,8 +44,8 @@ private fun TitleText(modifier: Modifier = Modifier, title: String) {
     Text(
         modifier = modifier.fillMaxWidth(),
         text = title,
+        textAlign = TextAlign.Center,
         style = MaterialTheme.typography.titleLarge,
-        color = MaterialTheme.colorScheme.onSurface,
     )
 }
 
