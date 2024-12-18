@@ -9,6 +9,7 @@ import edu.kwjw.you.domain.model.PlainEventData
 import edu.kwjw.you.domain.usecase.AddNewEvent
 import edu.kwjw.you.domain.usecase.GetUserEvent
 import edu.kwjw.you.exceptions.InvalidEventDataException
+import edu.kwjw.you.presentation.ui.eventlist.toEventItemList
 import edu.kwjw.you.presentation.uiState.UiEvent
 import edu.kwjw.you.util.ApiResult
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +39,7 @@ class EventListViewModel @Inject constructor(
 
                     ApiResult.Loading -> UiEvent.EventListUpdate()
                     is ApiResult.Success -> UiEvent.EventListUpdate(
-                        data = it.data,
+                        data = it.data.toEventItemList(),
                         state = UiEvent.EventListUpdate.EventState.SUCCESS
                     )
                 }
