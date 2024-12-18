@@ -3,8 +3,8 @@ package edu.kwjw.you.presentation.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
 import androidx.navigation.compose.rememberNavController
+import edu.kwjw.you.presentation.ui.screen.AddEventScreen
 import edu.kwjw.you.presentation.ui.screen.EventListScreen
 
 @Composable
@@ -14,6 +14,11 @@ internal fun AppNavigation() {
         navController = navController,
         startDestination = EventList
     ) {
-        composable<EventList> { EventListScreen() }
+        composable<EventList> {
+            EventListScreen(
+                onAddNewItemClicked = { navController.navigate(AddNewEvent) }
+            )
+        }
+        composable<AddNewEvent> { AddEventScreen() }
     }
 }

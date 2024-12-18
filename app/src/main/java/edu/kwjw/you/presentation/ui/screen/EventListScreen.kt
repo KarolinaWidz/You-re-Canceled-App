@@ -30,7 +30,8 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 internal fun EventListScreen(
     modifier: Modifier = Modifier,
-    viewModel: EventListViewModel = hiltViewModel()
+    viewModel: EventListViewModel = hiltViewModel(),
+    onAddNewItemClicked: ()-> Unit = {},
 ) {
 
     val title = stringResource(R.string.app_name)
@@ -43,7 +44,7 @@ internal fun EventListScreen(
     Scaffold(
         modifier = modifier,
         topBar = { TopTitleBar(title = title) },
-        bottomBar = { BottomBar() },
+        bottomBar = { BottomBar(onAddNewItemClicked = onAddNewItemClicked) },
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         snackbarHost = { SnackbarHost(hostState = snackbarHost) }
     ) { contentPadding ->
