@@ -1,4 +1,4 @@
-package edu.kwjw.you.domain.usecase
+package edu.kwjw.you.domain.usecase.addnewevent
 
 import edu.kwjw.you.data.remote.dto.AddEventDto
 import edu.kwjw.you.data.repository.EventRepository

@@ -7,22 +7,30 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.hilt.navigation.compose.hiltViewModel
 import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.addnewevent.AddEvent
 import edu.kwjw.you.presentation.ui.common.TopTitleBarWithBackButton
 import edu.kwjw.you.presentation.ui.theme.AppTheme
+import edu.kwjw.you.presentation.uiState.AddEventIntent
+import edu.kwjw.you.presentation.viewModel.AddEventViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun EventEventScreen(modifier: Modifier = Modifier) {
+internal fun AddEventScreen(
+    modifier: Modifier = Modifier,
+    viewModel: AddEventViewModel = hiltViewModel()
+) {
 
     val title = stringResource(R.string.add_new_event)
     val snackbarHost = remember { SnackbarHostState() }
-
+    val state by viewModel.state.collectAsState()
     Scaffold(
         modifier = modifier,
         topBar = { TopTitleBarWithBackButton(title = title) },
@@ -31,6 +39,9 @@ internal fun EventEventScreen(modifier: Modifier = Modifier) {
     ) { contentPadding ->
         AddEvent(
             modifier = Modifier.padding(contentPadding),
+            eventName = state.name,
+            onEventNameChanged = { name -> viewModel.processIntent(AddEventIntent.UpdateName(name = name)) },
+            isEventNameError = state.isNameError
         )
     }
 }
@@ -40,6 +51,6 @@ internal fun EventEventScreen(modifier: Modifier = Modifier) {
 @PreviewLightDark
 private fun EventEventScreenPreview() {
     AppTheme {
-        EventEventScreen()
+        AddEventScreen()
     }
 }
