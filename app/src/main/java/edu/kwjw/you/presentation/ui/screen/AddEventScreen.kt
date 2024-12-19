@@ -50,12 +50,15 @@ internal fun AddEventScreen(
                     )
                 )
             },
+            isEventDateError = state.isDateError,
             eventTime = state.rawTime,
             onEventTimeChanged = { time ->
                 viewModel.processIntent(
                     AddEventIntent.UpdateTime(time = time)
                 )
-            }
+            },
+            isEventTimeError = state.isTimeError,
+            onAddItemClicked = { viewModel.processIntent(AddEventIntent.SaveEvent) }
         )
     }
 }
