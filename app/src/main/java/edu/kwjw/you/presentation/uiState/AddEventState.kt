@@ -12,6 +12,6 @@ data class AddEventState(
     val dateTimestamp: Long? = null,
     val isDateError: Boolean = false,
     val rawTime: String = "",
-    val timeTimestamp: Time? = null,
+    val time: Time? = null,
     val isTimeError: Boolean = false,
 )
