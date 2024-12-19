@@ -25,6 +25,7 @@ import edu.kwjw.you.presentation.viewModel.AddEventViewModel
 @Composable
 internal fun AddEventScreen(
     modifier: Modifier = Modifier,
+    goBack: () -> Unit = {},
     viewModel: AddEventViewModel = hiltViewModel()
 ) {
 
@@ -33,7 +34,12 @@ internal fun AddEventScreen(
     val state by viewModel.state.collectAsState()
     Scaffold(
         modifier = modifier,
-        topBar = { TopTitleBarWithBackButton(title = title) },
+        topBar = {
+            TopTitleBarWithBackButton(
+                title = title,
+                onBackButtonClicked = goBack
+            )
+        },
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         snackbarHost = { SnackbarHost(hostState = snackbarHost) }
     ) { contentPadding ->
