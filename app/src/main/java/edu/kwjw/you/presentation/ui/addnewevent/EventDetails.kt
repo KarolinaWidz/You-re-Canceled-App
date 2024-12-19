@@ -11,7 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +39,7 @@ internal fun EventDetails(
     onEventDateChanged: (Long?) -> Unit = {},
     isEventDateError: Boolean = false,
     eventTime: String = "",
-    onEventTimeChanged: (TimePickerState) -> Unit = {},
+    onEventTimeChanged: (Time?) -> Unit = {},
     isEventTimeError: Boolean = false,
 ) {
     Column(
@@ -125,9 +124,11 @@ private fun EventDate(
         },
         onClicked = {
             DatePickerModalDialog(
-                onDismiss = { isClicked = false },
+                onDismiss = {
+                    isClicked = false
+                },
                 onDateSelected = {
-                    onDateChanged
+                    onDateChanged(it)
                     isClicked = false
                 }
             )
@@ -142,7 +143,7 @@ private fun EventDate(
 private fun EventTime(
     modifier: Modifier = Modifier,
     time: String,
-    onTimeChanged: (TimePickerState) -> Unit,
+    onTimeChanged: (Time?) -> Unit,
     isError: Boolean = false,
 ) {
     var isClicked by rememberSaveable { mutableStateOf(false) }
@@ -164,10 +165,12 @@ private fun EventTime(
             }
         },
         onClicked = {
-            TimePickerModalDialog(onTimeSelected = {
-                onTimeChanged
-                isClicked = false
-            })
+            TimePickerModalDialog(
+                onDismiss = { isClicked = false },
+                onTimeSelected = {
+                    onTimeChanged(it.toTime())
+                    isClicked = false
+                })
         },
         isClicked = isClicked,
         onIsClickedChanged = { isClicked = !isClicked }

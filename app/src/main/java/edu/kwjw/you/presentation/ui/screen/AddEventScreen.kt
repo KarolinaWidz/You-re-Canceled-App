@@ -41,7 +41,21 @@ internal fun AddEventScreen(
             modifier = Modifier.padding(contentPadding),
             eventName = state.name,
             onEventNameChanged = { name -> viewModel.processIntent(AddEventIntent.UpdateName(name = name)) },
-            isEventNameError = state.isNameError
+            isEventNameError = state.isNameError,
+            eventDate = state.rawDate,
+            onEventDateChanged = { date ->
+                viewModel.processIntent(
+                    AddEventIntent.UpdateDate(
+                        timestamp = date
+                    )
+                )
+            },
+            eventTime = state.rawTime,
+            onEventTimeChanged = { time ->
+                viewModel.processIntent(
+                    AddEventIntent.UpdateTime(time = time)
+                )
+            }
         )
     }
 }

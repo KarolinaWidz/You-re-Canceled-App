@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,7 +28,7 @@ internal fun AddEvent(
     onEventDateChanged: (Long?) -> Unit = {},
     isEventDateError: Boolean = false,
     eventTime: String = "",
-    onEventTimeChanged: (TimePickerState) -> Unit = {},
+    onEventTimeChanged: (Time?) -> Unit = {},
     isEventTimeError: Boolean = false,
     onAddItemClicked: () -> Unit = {},
 ) {

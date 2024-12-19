@@ -48,7 +48,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
 
     private fun showAddEventDialog() {
         dialog = AddEventDialogFragment()
-        dialog.addEventListener = { data -> viewModel.addNewEvent(data) }
         dialog.show(parentFragmentManager, ADD_EVENT_TAG)
     }
 
