@@ -19,6 +19,6 @@ internal fun AppNavigation() {
                 onAddNewItemClicked = { navController.navigate(AddNewEvent) }
             )
         }
-        composable<AddNewEvent> { AddEventScreen() }
+        composable<AddNewEvent> { AddEventScreen(goBack = { navController.navigateUp() }) }
     }
 }
