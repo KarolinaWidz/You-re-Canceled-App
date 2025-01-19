@@ -7,6 +7,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -19,6 +20,7 @@ import edu.kwjw.you.presentation.ui.addnewevent.AddEvent
 import edu.kwjw.you.presentation.ui.common.TopTitleBarWithBackButton
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.uiState.AddEventIntent
+import edu.kwjw.you.presentation.uiState.UiState
 import edu.kwjw.you.presentation.viewModel.AddEventViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,6 +34,7 @@ internal fun AddEventScreen(
     val title = stringResource(R.string.add_new_event)
     val snackbarHost = remember { SnackbarHostState() }
     val state by viewModel.state.collectAsState()
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -66,6 +69,18 @@ internal fun AddEventScreen(
             isEventTimeError = state.isTimeError,
             onAddItemClicked = { viewModel.processIntent(AddEventIntent.SaveEvent) }
         )
+
+        LaunchedEffect(state.uiState) {
+            when (state.uiState) {
+                UiState.Error -> {
+                    //todo show snackbar
+                }
+                UiState.Success -> goBack()
+                UiState.Idle -> {
+                    /* intentionally empty */
+                }
+            }
+        }
     }
 }
 
