@@ -11,6 +11,7 @@ import edu.kwjw.you.domain.usecase.addnewevent.ValidateEventName
 import edu.kwjw.you.presentation.ui.addnewevent.Time
 import edu.kwjw.you.presentation.uiState.AddEventIntent
 import edu.kwjw.you.presentation.uiState.AddEventState
+import edu.kwjw.you.presentation.uiState.UiState
 import edu.kwjw.you.util.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +29,7 @@ class AddEventViewModel @Inject constructor(
 ) : ViewModel() {
     private val _userId = mutableIntStateOf(1)
 
-    private val _state = MutableStateFlow(AddEventState())
+    private val _state = MutableStateFlow(AddEventState(uiState = UiState.Idle))
     val state: StateFlow<AddEventState> = _state
 
     fun processIntent(intent: AddEventIntent) {
@@ -80,7 +81,7 @@ class AddEventViewModel @Inject constructor(
         if (_state.value.isDateError || _state.value.isTimeError || _state.value.isNameError) {
             _state.update { state ->
                 state.copy(
-                    isSaveError = true
+                    uiState = UiState.Error
                 )
             }
         } else {
@@ -94,7 +95,7 @@ class AddEventViewModel @Inject constructor(
                     .collectLatest { result ->
                         _state.update { state ->
                             state.copy(
-                                isSaveError = result !is ApiResult.Success
+                                uiState = if (result is ApiResult.Success) UiState.Success else UiState.Error
                             )
                         }
                     }
