@@ -6,8 +6,8 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class EventListState(
     val uiState: EventListUiState,
-    val events: ImmutableList<EventItem> = persistentListOf()
-
+    val events: ImmutableList<EventItem> = persistentListOf(),
+    val userId: Int
 )
 
 sealed interface EventListUiState {

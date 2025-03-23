@@ -36,7 +36,7 @@ internal fun EventListScreen(
     val state = viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.processIntent(EventListIntent.GetEvents(1))
+        viewModel.processIntent(EventListIntent.GetEvents(state.value.userId))
     }
     Scaffold(
         modifier = modifier,
