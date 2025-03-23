@@ -26,4 +26,6 @@
     <string name="home_screen">Ekran domowy</string>
     <string name="profile_screen">Ekran profilu</string>
     <string name="friends_screen">Ekran znajomych</string>
+    <string name="go_back">Powrót</string>
+    <string name="cannot_add_event">Wydarzenie nie może zostać dodane</string>
 </resources>
