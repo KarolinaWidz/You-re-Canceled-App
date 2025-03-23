@@ -8,7 +8,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,12 +20,8 @@ import edu.kwjw.you.presentation.ui.common.TopTitleBar
 import edu.kwjw.you.presentation.ui.eventlist.EventList
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.uiState.EventListIntent
-import edu.kwjw.you.presentation.uiState.UiEvent.DismissDialog
-import edu.kwjw.you.presentation.uiState.UiEvent.EventListUpdate
-import edu.kwjw.you.presentation.uiState.UiEvent.ShowDialogSnackbar
-import edu.kwjw.you.presentation.uiState.UiEvent.ShowListSnackbar
+import edu.kwjw.you.presentation.uiState.EventListUiState
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
-import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +33,7 @@ internal fun EventListScreen(
 
     val title = stringResource(R.string.app_name)
     val snackbarHost = remember { SnackbarHostState() }
-    val state = viewModel.uiEvent.observeAsState()
+    val state = viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.processIntent(EventListIntent.GetEvents(1))
@@ -50,21 +46,20 @@ internal fun EventListScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHost) }
     ) { contentPadding ->
 
-        when (state.value) {
-            is ShowListSnackbar -> {}
-            is DismissDialog -> {}
-            is EventListUpdate -> {
-                EventList(
-                    modifier = Modifier.padding(contentPadding),
-                    events = (state.value as EventListUpdate).data.toImmutableList()
-                )
+        when (state.value.uiState) {
+            EventListUiState.Error -> {
+//                todo: show error and refresh button
             }
 
-            is ShowDialogSnackbar -> {}
-            null -> {}
+            EventListUiState.Loading -> {
+                //todo: show loading
+            }
+
+            EventListUiState.Success -> EventList(
+                modifier = Modifier.padding(contentPadding),
+                events = state.value.events
+            )
         }
-
-
     }
 }
 
