@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.kwjw.you.domain.usecase.GetUserEvent
 import edu.kwjw.you.presentation.ui.eventlist.toEventItemList
+import edu.kwjw.you.presentation.uiState.EventListIntent
 import edu.kwjw.you.presentation.uiState.UiEvent
 import edu.kwjw.you.util.ApiResult
 import kotlinx.coroutines.flow.collectLatest
@@ -25,9 +26,15 @@ class EventListViewModel @Inject constructor(
     private val _userId = MutableLiveData(1)
     val userId: LiveData<Int> = _userId
 
-    fun getEvents(userId: Int) {
+    fun processIntent(intent: EventListIntent) {
+        when (intent) {
+            is EventListIntent.GetEvents -> getEvents(intent.userId)
+        }
+    }
+
+    private fun getEvents(userId: Int) {
         viewModelScope.launch {
-            getUserEvent(userId).collectLatest {
+            getUserEvent.execute(userId).collectLatest {
                 _uiEvent.value = when (it) {
                     is ApiResult.HttpError, is ApiResult.NetworkError -> UiEvent.EventListUpdate(
                         state = UiEvent.EventListUpdate.EventState.ERROR

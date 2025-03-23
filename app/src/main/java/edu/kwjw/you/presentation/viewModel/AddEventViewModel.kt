@@ -1,5 +1,6 @@
 package edu.kwjw.you.presentation.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -84,6 +85,7 @@ class AddEventViewModel @Inject constructor(
                     uiState = UiState.Error
                 )
             }
+            Log.e(LOG_TAG, "Event cannot be saved because of error: ${state.value}")
         } else {
             viewModelScope.launch {
                 addNewEvent.execute(
@@ -111,5 +113,9 @@ class AddEventViewModel @Inject constructor(
                 isDateError = _state.value.dateTimestamp == null
             )
         }
+    }
+
+    companion object {
+        const val LOG_TAG = "AddEventViewModel"
     }
 }

@@ -12,6 +12,7 @@ import edu.kwjw.you.databinding.FragmentEventListBinding
 import edu.kwjw.you.presentation.ui.eventlist.EventItem
 import edu.kwjw.you.presentation.ui.eventlist.EventList
 import edu.kwjw.you.presentation.ui.theme.AppTheme
+import edu.kwjw.you.presentation.uiState.EventListIntent
 import edu.kwjw.you.presentation.uiState.UiEvent
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -24,6 +25,7 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     private val binding get() = _binding!!
     private val viewModel: EventListViewModel by viewModels()
 
+    //    todo: remove xml logic
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentEventListBinding.bind(view)
@@ -35,7 +37,7 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
                 }
             }
         }
-        viewModel.getEvents(1)
+        viewModel.processIntent(EventListIntent.GetEvents(1))
         viewModel.uiEvent.observe(viewLifecycleOwner) { handleEvent(it) }
     }
 
@@ -43,7 +45,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         super.onDestroy()
         _binding = null
     }
-
 
 
     private fun handleEvent(event: UiEvent) {
@@ -99,6 +100,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     }
 
     private fun dismissDialogIfSuccess() {
-        viewModel.getEvents(1)
+        viewModel.processIntent(EventListIntent.GetEvents(1))
     }
 }

@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetUserEvent @Inject constructor(private val repository: EventRepository) {
-    operator fun invoke(userId: Int): Flow<ApiResult<List<Event>>> {
-        return repository.getEventsForUser(userId)
-    }
+    internal fun execute(userId: Int): Flow<ApiResult<List<Event>>> =
+        repository.getEventsForUser(userId)
 }
