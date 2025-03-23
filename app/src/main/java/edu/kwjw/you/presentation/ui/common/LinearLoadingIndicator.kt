@@ -25,7 +25,7 @@ internal fun LinearLoadingIndicator(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview(showBackground = true)
-private fun TimePickerDialogPreview() {
+private fun LinearLoadingIndicatorPreview() {
     AppTheme {
         LinearLoadingIndicator()
     }
