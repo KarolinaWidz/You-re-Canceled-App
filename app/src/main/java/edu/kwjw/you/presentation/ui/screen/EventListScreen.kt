@@ -19,6 +19,7 @@ import edu.kwjw.you.presentation.ui.common.BottomBar
 import edu.kwjw.you.presentation.ui.common.TopTitleBar
 import edu.kwjw.you.presentation.ui.eventlist.EventList
 import edu.kwjw.you.presentation.ui.theme.AppTheme
+import edu.kwjw.you.presentation.uiState.EventListIntent
 import edu.kwjw.you.presentation.uiState.UiEvent.DismissDialog
 import edu.kwjw.you.presentation.uiState.UiEvent.EventListUpdate
 import edu.kwjw.you.presentation.uiState.UiEvent.ShowDialogSnackbar
@@ -31,7 +32,7 @@ import kotlinx.collections.immutable.toImmutableList
 internal fun EventListScreen(
     modifier: Modifier = Modifier,
     viewModel: EventListViewModel = hiltViewModel(),
-    onAddNewItemClicked: ()-> Unit = {},
+    onAddNewItemClicked: () -> Unit = {},
 ) {
 
     val title = stringResource(R.string.app_name)
@@ -39,7 +40,7 @@ internal fun EventListScreen(
     val state = viewModel.uiEvent.observeAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getEvents(1)
+        viewModel.processIntent(EventListIntent.GetEvents(1))
     }
     Scaffold(
         modifier = modifier,
