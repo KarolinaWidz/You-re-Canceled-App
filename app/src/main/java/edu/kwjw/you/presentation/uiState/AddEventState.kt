@@ -4,7 +4,7 @@ import edu.kwjw.you.domain.usecase.common.ValidationError
 import edu.kwjw.you.presentation.ui.addnewevent.Time
 
 data class AddEventState(
-    val uiState: UiState,
+    val uiState: AddEventUiState,
     val name: String = "",
     val isNameError: Boolean = false,
     val nameErrorType: ValidationError? = null,
@@ -16,8 +16,8 @@ data class AddEventState(
     val isTimeError: Boolean = false,
 )
 
-sealed interface UiState {
-    data object Idle : UiState
-    data object Error : UiState
-    data object Success : UiState
+sealed interface AddEventUiState {
+    data object Idle : AddEventUiState
+    data object Error : AddEventUiState
+    data object Success : AddEventUiState
 }

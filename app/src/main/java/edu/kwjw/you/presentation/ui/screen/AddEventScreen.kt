@@ -21,7 +21,7 @@ import edu.kwjw.you.presentation.ui.addnewevent.AddEvent
 import edu.kwjw.you.presentation.ui.common.TopTitleBarWithBackButton
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.uiState.AddEventIntent
-import edu.kwjw.you.presentation.uiState.UiState
+import edu.kwjw.you.presentation.uiState.AddEventUiState
 import edu.kwjw.you.presentation.viewModel.AddEventViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,9 +74,9 @@ internal fun AddEventScreen(
 
         LaunchedEffect(state.uiState) {
             when (state.uiState) {
-                UiState.Error -> snackbarHost.showSnackbar(context.getString(R.string.cannot_add_event))
-                UiState.Success -> goBack()
-                UiState.Idle -> {
+                AddEventUiState.Error -> snackbarHost.showSnackbar(context.getString(R.string.cannot_add_event))
+                AddEventUiState.Success -> goBack()
+                AddEventUiState.Idle -> {
                     /* intentionally empty */
                 }
             }
