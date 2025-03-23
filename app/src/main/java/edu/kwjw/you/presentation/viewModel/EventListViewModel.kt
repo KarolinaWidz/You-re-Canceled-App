@@ -1,7 +1,5 @@
 package edu.kwjw.you.presentation.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,7 +8,6 @@ import edu.kwjw.you.presentation.ui.eventlist.toEventItemList
 import edu.kwjw.you.presentation.uiState.EventListIntent
 import edu.kwjw.you.presentation.uiState.EventListState
 import edu.kwjw.you.presentation.uiState.EventListUiState
-import edu.kwjw.you.presentation.uiState.UiEvent
 import edu.kwjw.you.util.ApiResult
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,14 +22,9 @@ class EventListViewModel @Inject constructor(
     private val getUserEvent: GetUserEvent
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(EventListState(uiState = EventListUiState.Loading))
+    private val _state =
+        MutableStateFlow(EventListState(uiState = EventListUiState.Loading, userId = 1))
     val state: StateFlow<EventListState> = _state
-
-    private val _uiEvent = MutableLiveData<UiEvent>()
-    val uiEvent: LiveData<UiEvent> get() = _uiEvent
-
-    private val _userId = MutableLiveData(1)
-    val userId: LiveData<Int> = _userId
 
     fun processIntent(intent: EventListIntent) {
         when (intent) {
