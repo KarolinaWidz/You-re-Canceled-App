@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,6 +35,7 @@ internal fun AddEventScreen(
     val title = stringResource(R.string.add_new_event)
     val snackbarHost = remember { SnackbarHostState() }
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
 
     Scaffold(
         modifier = modifier,
@@ -72,9 +74,7 @@ internal fun AddEventScreen(
 
         LaunchedEffect(state.uiState) {
             when (state.uiState) {
-                UiState.Error -> {
-                    //todo show snackbar
-                }
+                UiState.Error -> snackbarHost.showSnackbar(context.getString(R.string.cannot_add_event))
                 UiState.Success -> goBack()
                 UiState.Idle -> {
                     /* intentionally empty */
