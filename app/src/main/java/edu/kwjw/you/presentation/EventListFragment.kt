@@ -23,7 +23,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
     private var _binding: FragmentEventListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: EventListViewModel by viewModels()
-    private lateinit var dialog: AddEventDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +35,6 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
                 }
             }
         }
-        binding.fab.setOnClickListener { showAddEventDialog() }
         viewModel.getEvents(1)
         viewModel.uiEvent.observe(viewLifecycleOwner) { handleEvent(it) }
     }
@@ -46,19 +44,11 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
         _binding = null
     }
 
-    private fun showAddEventDialog() {
-        dialog = AddEventDialogFragment()
-        dialog.show(parentFragmentManager, ADD_EVENT_TAG)
-    }
 
 
     private fun handleEvent(event: UiEvent) {
         when (event) {
-            is UiEvent.ShowDialogSnackbar -> Snackbar.make(
-                dialog.requireView(),
-                event.message,
-                Snackbar.LENGTH_SHORT
-            ).show()
+            is UiEvent.ShowDialogSnackbar -> {}
 
             is UiEvent.ShowListSnackbar -> Snackbar.make(
                 requireView(),
@@ -110,10 +100,5 @@ class EventListFragment : Fragment(R.layout.fragment_event_list) {
 
     private fun dismissDialogIfSuccess() {
         viewModel.getEvents(1)
-        dialog.dismiss()
-    }
-
-    companion object {
-        const val ADD_EVENT_TAG = "AddEventDialog"
     }
 }

@@ -13,7 +13,7 @@ class LocalDateTimeAdapter {
         try {
             val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
             return formatter.format(localDateTime)
-        } catch (e: DateTimeException) {
+        } catch (_: DateTimeException) {
             throw JsonDataException("Cannot parse date: $localDateTime")
         }
 
@@ -24,7 +24,7 @@ class LocalDateTimeAdapter {
         try {
             val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
             return LocalDateTime.parse(json, formatter)
-        } catch (e: DateTimeException) {
+        } catch (_: DateTimeException) {
             throw JsonDataException("Cannot parse date: $json")
         }
     }

@@ -8,12 +8,5 @@
         android:id="@+id/eventListFragment"
         android:name="edu.kwjw.you.presentation.EventListFragment"
         android:label="EventListFragment" >
-        <action
-            android:id="@+id/action_eventListFragment_to_addEventDialogFragment"
-            app:destination="@id/addEventDialogFragment" />
     </fragment>
-    <dialog
-        android:id="@+id/addEventDialogFragment"
-        android:name="edu.kwjw.you.presentation.AddEventDialogFragment"
-        android:label="AddEventDialogFragment" />
 </navigation>

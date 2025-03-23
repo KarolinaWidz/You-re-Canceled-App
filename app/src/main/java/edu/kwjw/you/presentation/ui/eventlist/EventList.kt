@@ -27,10 +27,18 @@ internal fun EventList(
 @Composable
 private fun EventCardPreview() {
     AppTheme {
-        EventList(events = persistentListOf(EventItem(
-            name = "Designer meeting",
-            date = LocalDateTime.now(),
-            status = EventStatus.ATTENDING
-        )))
+        EventList(
+            events = persistentListOf(
+                EventItem(
+                    name = "Designer meeting",
+                    date = LocalDateTime.now(),
+                    status = EventStatus.ATTENDING
+                ), EventItem(
+                    name = "Designer meeting 2",
+                    date = LocalDateTime.now(),
+                    status = EventStatus.ATTENDING
+                )
+            )
+        )
     }
 }
