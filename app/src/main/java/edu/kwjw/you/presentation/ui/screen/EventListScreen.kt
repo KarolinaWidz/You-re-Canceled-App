@@ -19,6 +19,7 @@ import edu.kwjw.you.presentation.ui.common.BottomBar
 import edu.kwjw.you.presentation.ui.common.LinearLoadingIndicator
 import edu.kwjw.you.presentation.ui.common.TopTitleBar
 import edu.kwjw.you.presentation.ui.eventlist.EventList
+import edu.kwjw.you.presentation.ui.eventlist.EventListError
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.theme.ThicknessSmall
 import edu.kwjw.you.presentation.uiState.EventListIntent
@@ -49,9 +50,11 @@ internal fun EventListScreen(
     ) { contentPadding ->
 
         when (state.value.uiState) {
-            EventListUiState.Error -> {
-//                todo: show error and refresh button
-            }
+            EventListUiState.Error -> EventListError(onRetry = {
+                viewModel.processIntent(
+                    EventListIntent.GetEvents(state.value.userId)
+                )
+            })
 
             EventListUiState.Loading -> LinearLoadingIndicator(modifier.padding(contentPadding))
 

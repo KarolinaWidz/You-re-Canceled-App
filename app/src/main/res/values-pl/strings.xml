@@ -28,4 +28,8 @@
     <string name="friends_screen">Ekran znajomych</string>
     <string name="go_back">Powrót</string>
     <string name="cannot_add_event">Wydarzenie nie może zostać dodane</string>
+    <string name="oops">Ups!</string>
+    <string name="something_went_wrong">Coś poszło nie tak</string>
+    <string name="please_try_again">Spróbuj ponownie</string>
+    <string name="retry">Odśwież</string>
 </resources>
