@@ -16,9 +16,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.navigation.compose.hiltViewModel
 import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.common.BottomBar
+import edu.kwjw.you.presentation.ui.common.LinearLoadingIndicator
 import edu.kwjw.you.presentation.ui.common.TopTitleBar
 import edu.kwjw.you.presentation.ui.eventlist.EventList
 import edu.kwjw.you.presentation.ui.theme.AppTheme
+import edu.kwjw.you.presentation.ui.theme.ThicknessSmall
 import edu.kwjw.you.presentation.uiState.EventListIntent
 import edu.kwjw.you.presentation.uiState.EventListUiState
 import edu.kwjw.you.presentation.viewModel.EventListViewModel
@@ -51,12 +53,12 @@ internal fun EventListScreen(
 //                todo: show error and refresh button
             }
 
-            EventListUiState.Loading -> {
-                //todo: show loading
-            }
+            EventListUiState.Loading -> LinearLoadingIndicator(modifier.padding(contentPadding))
 
             EventListUiState.Success -> EventList(
-                modifier = Modifier.padding(contentPadding),
+                modifier = Modifier
+                    .padding(contentPadding)
+                    .padding(top = ThicknessSmall),
                 events = state.value.events
             )
         }

@@ -14,3 +14,5 @@ val CornerRadiusSmall = 4.dp
 val CornerRadiusMedium = 8.dp
 
 val SpacerMedium = 40.dp
+
+val ThicknessSmall = 4.dp
