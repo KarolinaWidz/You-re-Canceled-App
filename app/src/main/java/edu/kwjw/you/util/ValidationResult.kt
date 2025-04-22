@@ -1,4 +1,4 @@
-package edu.kwjw.you.domain.usecase.common
+package edu.kwjw.you.util
 
 data class ValidationResult(
     val isSuccessful: Boolean,
@@ -7,5 +7,5 @@ data class ValidationResult(
 
 sealed interface ValidationError {
     data object Empty : ValidationError
-    data object MaxLengthExceeded: ValidationError
+    data object MaxLengthExceeded : ValidationError
 }

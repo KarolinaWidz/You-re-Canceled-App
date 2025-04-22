@@ -30,7 +30,7 @@ import edu.kwjw.you.presentation.ui.theme.CornerRadiusMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingSmall
 import edu.kwjw.you.presentation.ui.theme.SizeMedium
-import edu.kwjw.you.util.toFullDateString
+import edu.kwjw.you.presentation.util.toFullDateString
 import java.time.LocalDateTime
 
 @Composable

@@ -6,14 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.kwjw.you.domain.usecase.addnewevent.AddNewEvent
-import edu.kwjw.you.domain.usecase.addnewevent.FormatDate
-import edu.kwjw.you.domain.usecase.addnewevent.FormatTime
-import edu.kwjw.you.domain.usecase.addnewevent.ValidateEventName
 import edu.kwjw.you.presentation.ui.addnewevent.Time
 import edu.kwjw.you.presentation.uiState.AddEventIntent
 import edu.kwjw.you.presentation.uiState.AddEventState
 import edu.kwjw.you.presentation.uiState.AddEventUiState
+import edu.kwjw.you.presentation.util.toFullDateString
+import edu.kwjw.you.presentation.util.toTimeString
 import edu.kwjw.you.util.ApiResult
+import edu.kwjw.you.util.ValidationError
+import edu.kwjw.you.util.ValidationResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -24,9 +25,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEventViewModel @Inject constructor(
     private val addNewEvent: AddNewEvent,
-    private val validateEventName: ValidateEventName,
-    private val formatDate: FormatDate,
-    private val formatTime: FormatTime,
 ) : ViewModel() {
     private val _userId = mutableIntStateOf(1)
 
@@ -43,7 +41,7 @@ class AddEventViewModel @Inject constructor(
     }
 
     private fun updateName(name: String) {
-        val result = validateEventName.execute(name)
+        val result = validateEventName(name)
         _state.update { state ->
             state.copy(
                 name = name,
@@ -54,7 +52,7 @@ class AddEventViewModel @Inject constructor(
     }
 
     private fun updateDate(timestamp: Long?) {
-        val rawDate = formatDate.execute(timestamp)
+        val rawDate = timestamp?.toFullDateString() ?: ""
         _state.update { state ->
             state.copy(
                 dateTimestamp = timestamp,
@@ -66,7 +64,7 @@ class AddEventViewModel @Inject constructor(
 
 
     private fun updateTime(time: Time?) {
-        val rawTime = formatTime.execute(time)
+        val rawTime = time?.toTimeString() ?: ""
         _state.update { state ->
             state.copy(
                 time = time,
@@ -103,6 +101,21 @@ class AddEventViewModel @Inject constructor(
                     }
             }
         }
+    }
+
+    private fun validateEventName(name: String): ValidationResult {
+        if (name.isBlank()) {
+            Log.w(LOG_TAG, "Name is blank")
+            return ValidationResult(isSuccessful = false, error = ValidationError.Empty)
+        }
+        if (name.length > 100) {
+            Log.w(LOG_TAG, "Maximum length of name exceeded")
+            return ValidationResult(
+                isSuccessful = false,
+                error = ValidationError.MaxLengthExceeded
+            )
+        }
+        return ValidationResult(isSuccessful = true)
     }
 
     private fun validateDateAndTime() {

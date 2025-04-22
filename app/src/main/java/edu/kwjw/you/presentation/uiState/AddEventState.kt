@@ -1,6 +1,6 @@
 package edu.kwjw.you.presentation.uiState
 
-import edu.kwjw.you.domain.usecase.common.ValidationError
+import edu.kwjw.you.util.ValidationError
 import edu.kwjw.you.presentation.ui.addnewevent.Time
 
 data class AddEventState(
