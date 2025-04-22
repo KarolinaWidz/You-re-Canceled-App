@@ -32,7 +32,7 @@ internal fun SignInScreen(
     ) { contentPadding ->
         SignIn(
             modifier = Modifier.padding(contentPadding),
-            login = state.value.login,
+            login = state.value.email,
             onLoginChanged = { login -> viewModel.processIntent(SignInIntent.UpdateLogin(login)) },
             password = state.value.password,
             onPasswordChanged = { password ->
@@ -41,7 +41,8 @@ internal fun SignInScreen(
                         password
                     )
                 )
-            }
+            },
+            onSignOnClicked = { viewModel.processIntent(SignInIntent.SignIn) }
         )
     }
 }

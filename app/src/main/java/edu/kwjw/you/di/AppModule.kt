@@ -8,10 +8,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import edu.kwjw.you.data.remote.EventService
+import edu.kwjw.you.data.remote.UserAccountFirebaseService
+import edu.kwjw.you.data.remote.UserAccountService
 import edu.kwjw.you.data.remote.adapter.LocalDateTimeAdapter
 import edu.kwjw.you.data.remote.adapter.UuidAdapter
 import edu.kwjw.you.data.repository.EventOnlineRepository
 import edu.kwjw.you.data.repository.EventRepository
+import edu.kwjw.you.data.repository.UserAccountOnlineRepository
+import edu.kwjw.you.data.repository.UserAccountRepository
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -37,6 +41,10 @@ object AppModule {
     @Singleton
     fun provideEventService(): EventService = retrofit.create(EventService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideUserAccountFirebaseService(): UserAccountService = UserAccountFirebaseService()
+
 }
 
 @InstallIn(SingletonComponent::class)
@@ -44,5 +52,9 @@ object AppModule {
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindRepository(repository: EventOnlineRepository): EventRepository
+    abstract fun bindEventRepository(repository: EventOnlineRepository): EventRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindUserAccountRepository(repository: UserAccountOnlineRepository): UserAccountRepository
 }
