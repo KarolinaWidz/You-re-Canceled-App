@@ -1,7 +1,7 @@
 package edu.kwjw.you.presentation.ui.eventlist
 
-import edu.kwjw.you.domain.model.Event
-import edu.kwjw.you.domain.model.EventStatus
+import edu.kwjw.you.data.repository.model.Event
+import edu.kwjw.you.data.repository.model.EventStatus
 import kotlinx.collections.immutable.toPersistentList
 import java.time.LocalDateTime
 

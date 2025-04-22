@@ -3,7 +3,7 @@ package edu.kwjw.you.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.kwjw.you.domain.usecase.GetUserEvent
+import edu.kwjw.you.data.repository.EventRepository
 import edu.kwjw.you.presentation.ui.eventlist.toEventItemList
 import edu.kwjw.you.presentation.uiState.EventListIntent
 import edu.kwjw.you.presentation.uiState.EventListState
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EventListViewModel @Inject constructor(
-    private val getUserEvent: GetUserEvent
+    private val repository: EventRepository
 ) : ViewModel() {
 
     private val _state =
@@ -34,7 +34,7 @@ class EventListViewModel @Inject constructor(
 
     private fun getEvents(userId: Int) {
         viewModelScope.launch {
-            getUserEvent.execute(userId).collectLatest { result ->
+            repository.getEventsForUser(userId).collectLatest { result ->
                 _state.update { state ->
                     when (result) {
                         ApiResult.Loading -> state.copy(uiState = EventListUiState.Loading)

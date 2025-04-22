@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import edu.kwjw.you.R
-import edu.kwjw.you.domain.model.EventStatus
+import edu.kwjw.you.data.repository.model.EventStatus
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.theme.CornerRadiusMedium
 import edu.kwjw.you.presentation.ui.theme.PaddingMedium

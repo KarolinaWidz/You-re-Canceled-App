@@ -1,4 +1,4 @@
-package edu.kwjw.you.domain.model
+package edu.kwjw.you.data.repository.model
 
 import edu.kwjw.you.R
 

@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.kwjw.you.domain.usecase.addnewevent.AddNewEvent
+import edu.kwjw.you.data.repository.EventRepository
 import edu.kwjw.you.presentation.ui.addnewevent.Time
 import edu.kwjw.you.presentation.uiState.AddEventIntent
 import edu.kwjw.you.presentation.uiState.AddEventState
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEventViewModel @Inject constructor(
-    private val addNewEvent: AddNewEvent,
+    private val repository: EventRepository
 ) : ViewModel() {
     private val _userId = mutableIntStateOf(1)
 
@@ -86,19 +86,18 @@ class AddEventViewModel @Inject constructor(
             Log.e(LOG_TAG, "Event cannot be saved because of error: ${state.value}")
         } else {
             viewModelScope.launch {
-                addNewEvent.execute(
+                repository.addEvent(
                     userId = _userId.value,
                     dateTimestamp = requireNotNull(_state.value.dateTimestamp) { "If no error, shouldn't be null" },
                     time = requireNotNull(_state.value.time) { "If no error, shouldn't be null" },
                     _state.value.name
-                )
-                    .collectLatest { result ->
-                        _state.update { state ->
-                            state.copy(
-                                uiState = if (result is ApiResult.Success) AddEventUiState.Success else AddEventUiState.Error
-                            )
-                        }
+                ).collectLatest { result ->
+                    _state.update { state ->
+                        state.copy(
+                            uiState = if (result is ApiResult.Success) AddEventUiState.Success else AddEventUiState.Error
+                        )
                     }
+                }
             }
         }
     }

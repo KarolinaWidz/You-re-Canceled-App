@@ -1,7 +1,7 @@
 package edu.kwjw.you.data.remote.dto
 
-import edu.kwjw.you.domain.model.EventStatus
-import edu.kwjw.you.domain.model.Participant
+import edu.kwjw.you.data.repository.model.EventStatus
+import edu.kwjw.you.data.repository.model.Participant
 
 data class ParticipantDto(
     val userId: Int,

@@ -1,7 +1,7 @@
 package edu.kwjw.you.data.remote.dto
 
-import edu.kwjw.you.domain.model.Event
-import edu.kwjw.you.domain.model.EventStatus
+import edu.kwjw.you.data.repository.model.Event
+import edu.kwjw.you.data.repository.model.EventStatus
 import java.time.LocalDateTime
 import java.util.UUID
 
