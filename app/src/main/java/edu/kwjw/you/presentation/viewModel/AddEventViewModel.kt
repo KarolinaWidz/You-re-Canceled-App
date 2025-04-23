@@ -17,7 +17,6 @@ import edu.kwjw.you.util.ValidationError
 import edu.kwjw.you.util.ValidationResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -86,17 +85,14 @@ class AddEventViewModel @Inject constructor(
             Log.e(LOG_TAG, "Event cannot be saved because of error: ${state.value}")
         } else {
             viewModelScope.launch {
-                repository.addEvent(
+                val result = repository.addEvent(
                     userId = _userId.value,
                     dateTimestamp = requireNotNull(_state.value.dateTimestamp) { "If no error, shouldn't be null" },
                     time = requireNotNull(_state.value.time) { "If no error, shouldn't be null" },
                     _state.value.name
-                ).collectLatest { result ->
-                    _state.update { state ->
-                        state.copy(
-                            uiState = if (result is ApiResult.Success) AddEventUiState.Success else AddEventUiState.Error
-                        )
-                    }
+                )
+                _state.update { state ->
+                    state.copy(uiState = if (result is ApiResult.Success) AddEventUiState.Success else AddEventUiState.Error)
                 }
             }
         }

@@ -12,7 +12,6 @@ import edu.kwjw.you.util.ApiResult
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,20 +33,19 @@ class EventListViewModel @Inject constructor(
 
     private fun getEvents(userId: Int) {
         viewModelScope.launch {
-            repository.getEventsForUser(userId).collectLatest { result ->
-                _state.update { state ->
-                    when (result) {
-                        ApiResult.Loading -> state.copy(uiState = EventListUiState.Loading)
-                        is ApiResult.NetworkError, is ApiResult.HttpError -> state.copy(
-                            uiState = EventListUiState.Error,
-                            events = persistentListOf()
-                        )
+            _state.update { state -> state.copy(uiState = EventListUiState.Loading) }
+            val result = repository.getEventsForUser(userId)
+            _state.update { state ->
+                when (result) {
+                    is ApiResult.NetworkError, is ApiResult.HttpError -> state.copy(
+                        uiState = EventListUiState.Error,
+                        events = persistentListOf()
+                    )
 
-                        is ApiResult.Success -> state.copy(
-                            uiState = EventListUiState.Success,
-                            events = result.data.toEventItemList()
-                        )
-                    }
+                    is ApiResult.Success -> state.copy(
+                        uiState = EventListUiState.Success,
+                        events = result.data.toEventItemList()
+                    )
                 }
             }
         }
