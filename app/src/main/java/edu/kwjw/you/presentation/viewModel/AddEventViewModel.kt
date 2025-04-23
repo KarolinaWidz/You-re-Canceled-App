@@ -86,7 +86,7 @@ class AddEventViewModel @Inject constructor(
         } else {
             viewModelScope.launch {
                 val result = repository.addEvent(
-                    userId = _userId.value,
+                    userId = _userId.intValue,
                     dateTimestamp = requireNotNull(_state.value.dateTimestamp) { "If no error, shouldn't be null" },
                     time = requireNotNull(_state.value.time) { "If no error, shouldn't be null" },
                     _state.value.name

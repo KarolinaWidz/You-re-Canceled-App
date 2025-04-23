@@ -59,6 +59,5 @@ class EventOnlineRepository @Inject constructor(private val eventService: EventS
 
     companion object {
         const val LOG_TAG = "EventOnlineRepository"
-        const val TIME_PERIOD = 1000L
     }
 }
