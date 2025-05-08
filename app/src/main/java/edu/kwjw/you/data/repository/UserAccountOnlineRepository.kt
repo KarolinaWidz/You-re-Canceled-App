@@ -12,8 +12,6 @@ class UserAccountOnlineRepository @Inject constructor(
     override suspend fun signInWithEmail(email: String, password: String): Result<Unit> {
         userAccountService.signInWithEmail(email = email, password = password)
             .onSuccess { token ->
-                // todo add interceptor
-                //todo add moving to the next screen
                 dataStore.updateData {
                     UserPreferences(token = token)
                 }

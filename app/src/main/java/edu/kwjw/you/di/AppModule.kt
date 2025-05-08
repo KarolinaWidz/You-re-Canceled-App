@@ -21,8 +21,10 @@ import edu.kwjw.you.data.repository.EventOnlineRepository
 import edu.kwjw.you.data.repository.EventRepository
 import edu.kwjw.you.data.repository.UserAccountOnlineRepository
 import edu.kwjw.you.data.repository.UserAccountRepository
+import edu.kwjw.you.util.AuthInterceptor
 import edu.kwjw.you.util.encrypteddatastore.UserPreferences
 import edu.kwjw.you.util.encrypteddatastore.UserPreferencesSerializer
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -31,7 +33,7 @@ import javax.inject.Singleton
 @Module
 object AppModule {
 
-    private const val BASE_URL = "http://192.168.100.6:8080"
+    private const val BASE_URL = "https://cancelled.jacekku.net/"
     private const val USER_PREFERENCES_FILE = "user_preferences"
 
     private val moshi =
@@ -41,14 +43,24 @@ object AppModule {
             .add(KotlinJsonAdapterFactory())
             .build()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor) = OkHttpClient().newBuilder()
+        .addInterceptor(authInterceptor)
         .build()
 
     @Provides
     @Singleton
-    fun provideEventService(): EventService = retrofit.create(EventService::class.java)
+    fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .client(client)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideEventService(retrofit: Retrofit): EventService =
+        retrofit.create(EventService::class.java)
 
     @Provides
     @Singleton
