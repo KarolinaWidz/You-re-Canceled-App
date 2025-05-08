@@ -15,7 +15,11 @@ internal fun AppNavigation() {
         navController = navController,
         startDestination = SignIn
     ) {
-        composable<SignIn> { SignInScreen() }
+        composable<SignIn> {
+            SignInScreen(
+                goToEventList = { navController.navigate(EventList) }
+            )
+        }
 
         composable<EventList> {
             EventListScreen(

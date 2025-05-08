@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -14,16 +16,18 @@ import edu.kwjw.you.presentation.ui.auth.SignIn
 import edu.kwjw.you.presentation.ui.common.TopTitleBar
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.uiState.SignInIntent
+import edu.kwjw.you.presentation.uiState.SignInUiState
 import edu.kwjw.you.presentation.viewModel.SignInViewModel
 
 
 @Composable
 internal fun SignInScreen(
     modifier: Modifier = Modifier,
+    goToEventList: () -> Unit = {},
     viewModel: SignInViewModel = hiltViewModel()
 ) {
     val title = stringResource(R.string.app_name)
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     Scaffold(
         modifier = modifier,
@@ -32,9 +36,9 @@ internal fun SignInScreen(
     ) { contentPadding ->
         SignIn(
             modifier = Modifier.padding(contentPadding),
-            login = state.value.email,
+            login = state.email,
             onLoginChanged = { login -> viewModel.processIntent(SignInIntent.UpdateLogin(login)) },
-            password = state.value.password,
+            password = state.password,
             onPasswordChanged = { password ->
                 viewModel.processIntent(
                     SignInIntent.UpdatePassword(
@@ -44,6 +48,18 @@ internal fun SignInScreen(
             },
             onSignOnClicked = { viewModel.processIntent(SignInIntent.SignIn) }
         )
+
+        LaunchedEffect(state.uiState) {
+            when (state.uiState) {
+                SignInUiState.Success -> goToEventList()
+                SignInUiState.Error -> {
+                    //todo add error handling
+                }
+                SignInUiState.Idle -> {
+                    /* Intentionally empty */
+                }
+            }
+        }
     }
 }
 

@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface EventService {
 
     @GET("/events")
-    suspend fun getEventsForUser(@Query("userId") userId: Int): List<EventDto>
+    suspend fun getEventsForUser(@Query("userId") userId: String): List<EventDto>
 
     @POST("/events")
     suspend fun addEventForUser(@Body addEventDto: AddEventDto): EventDto
