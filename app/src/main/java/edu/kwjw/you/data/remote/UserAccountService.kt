@@ -2,8 +2,8 @@ package edu.kwjw.you.data.remote
 
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import edu.kwjw.you.domain.exception.TokenRetrievalException
-import edu.kwjw.you.domain.exception.UserNotFoundException
+import edu.kwjw.you.data.repository.exception.TokenRetrievalException
+import edu.kwjw.you.data.repository.exception.UserNotFoundException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 

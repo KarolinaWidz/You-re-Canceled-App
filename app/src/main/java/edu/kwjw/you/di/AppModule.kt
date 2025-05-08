@@ -1,11 +1,16 @@
-package edu.kwjw.you.di
+﻿package edu.kwjw.you.di
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import edu.kwjw.you.data.remote.EventService
 import edu.kwjw.you.data.remote.UserAccountFirebaseService
@@ -16,6 +21,8 @@ import edu.kwjw.you.data.repository.EventOnlineRepository
 import edu.kwjw.you.data.repository.EventRepository
 import edu.kwjw.you.data.repository.UserAccountOnlineRepository
 import edu.kwjw.you.data.repository.UserAccountRepository
+import edu.kwjw.you.util.encrypteddatastore.UserPreferences
+import edu.kwjw.you.util.encrypteddatastore.UserPreferencesSerializer
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -25,6 +32,8 @@ import javax.inject.Singleton
 object AppModule {
 
     private const val BASE_URL = "http://192.168.100.6:8080"
+    private const val USER_PREFERENCES_FILE = "user_preferences"
+
     private val moshi =
         Moshi.Builder()
             .add(UuidAdapter())
@@ -45,6 +54,14 @@ object AppModule {
     @Singleton
     fun provideUserAccountFirebaseService(): UserAccountService = UserAccountFirebaseService()
 
+    @Provides
+    @Singleton
+    fun provideUserPreferencesDataStore(@ApplicationContext context: Context): DataStore<UserPreferences> {
+        return DataStoreFactory.create(
+            serializer = UserPreferencesSerializer,
+            produceFile = { context.dataStoreFile(USER_PREFERENCES_FILE) }
+        )
+    }
 }
 
 @InstallIn(SingletonComponent::class)

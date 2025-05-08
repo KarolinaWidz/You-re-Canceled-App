@@ -97,6 +97,8 @@ dependencies {
 //    firebase
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     implementation("com.google.firebase:firebase-auth")
+//    datastore preferences
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
 //    compose ui tests
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
