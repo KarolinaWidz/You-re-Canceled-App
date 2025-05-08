@@ -4,7 +4,7 @@ import edu.kwjw.you.data.repository.model.EventStatus
 import edu.kwjw.you.data.repository.model.Participant
 
 data class ParticipantDto(
-    val userId: Int,
+    val userId: String,
     val status: EventStatus,
 ) {
     fun toParticipant(): Participant {

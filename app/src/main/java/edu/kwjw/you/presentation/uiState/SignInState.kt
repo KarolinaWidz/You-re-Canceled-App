@@ -7,7 +7,8 @@ data class SignInState(
 )
 
 sealed interface SignInUiState {
-    data object Loading : SignInUiState
+    //todo add loading for button
+    data object Idle : SignInUiState
     data object Error : SignInUiState
     data object Success : SignInUiState
 }

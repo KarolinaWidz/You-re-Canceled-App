@@ -19,7 +19,7 @@ class EventOnlineRepository @Inject constructor(private val eventService: EventS
     EventRepository {
 
     @OptIn(FlowPreview::class)
-    override suspend fun getEventsForUser(userId: Int): ApiResult<List<Event>> = try {
+    override suspend fun getEventsForUser(userId: String): ApiResult<List<Event>> = try {
         val result = eventService.getEventsForUser(userId).map { it.toEvent() }
         Log.i(LOG_TAG, "Events fetched successfully: $result")
         ApiResult.Success(result)
@@ -34,7 +34,7 @@ class EventOnlineRepository @Inject constructor(private val eventService: EventS
     }
 
     override suspend fun addEvent(
-        userId: Int, dateTimestamp: Long, time: Time, name: String
+        userId: String, dateTimestamp: Long, time: Time, name: String
     ): ApiResult<Event> = try {
         val dateTime = createDateTimeObject(dateTimestamp = dateTimestamp, time = time)
         val result = eventService.addEventForUser(AddEventDto(userId, name, dateTime)).toEvent()

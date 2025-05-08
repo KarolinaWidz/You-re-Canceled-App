@@ -1,5 +1,6 @@
 package edu.kwjw.you.presentation.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,7 @@ class SignInViewModel @Inject constructor(
     private val userAccountRepository: UserAccountRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SignInState(uiState = SignInUiState.Loading))
+    private val _state = MutableStateFlow(SignInState(uiState = SignInUiState.Idle))
     val state: StateFlow<SignInState> = _state
 
     fun processIntent(intent: SignInIntent) {
@@ -47,15 +48,20 @@ class SignInViewModel @Inject constructor(
 
     private fun signIn() {
         viewModelScope.launch {
-            _state.update { state -> state.copy(uiState = SignInUiState.Loading) }
             userAccountRepository.signInWithEmail(
                 state.value.email,
                 state.value.password
             ).onSuccess {
                 _state.update { state -> state.copy(uiState = SignInUiState.Success) }
+                Log.d(LOG_TAG, "User successfully signed in")
             }.onFailure {
                 _state.update { state -> state.copy(uiState = SignInUiState.Error) }
+                Log.d(LOG_TAG, "Error during signing in")
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "SignInViewModel"
     }
 }

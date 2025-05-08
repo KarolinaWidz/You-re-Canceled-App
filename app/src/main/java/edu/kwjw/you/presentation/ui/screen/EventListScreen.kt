@@ -9,6 +9,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,10 +37,10 @@ internal fun EventListScreen(
 
     val title = stringResource(R.string.app_name)
     val snackbarHost = remember { SnackbarHostState() }
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.processIntent(EventListIntent.GetEvents(state.value.userId))
+        viewModel.processIntent(EventListIntent.GetEvents(state.userId))
     }
     Scaffold(
         modifier = modifier,
@@ -49,10 +50,10 @@ internal fun EventListScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHost) }
     ) { contentPadding ->
 
-        when (state.value.uiState) {
+        when (state.uiState) {
             EventListUiState.Error -> EventListError(onRetry = {
                 viewModel.processIntent(
-                    EventListIntent.GetEvents(state.value.userId)
+                    EventListIntent.GetEvents(state.userId)
                 )
             })
 
@@ -62,7 +63,7 @@ internal fun EventListScreen(
                 modifier = Modifier
                     .padding(contentPadding)
                     .padding(top = ThicknessSmall),
-                events = state.value.events
+                events = state.events
             )
         }
     }

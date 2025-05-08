@@ -22,7 +22,12 @@ class EventListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state =
-        MutableStateFlow(EventListState(uiState = EventListUiState.Loading, userId = 1))
+        MutableStateFlow(
+            EventListState(
+                uiState = EventListUiState.Loading,
+                userId = "v6akUV9OlBRvRDX8sPnuLNy8GO03"
+            )
+        )
     val state: StateFlow<EventListState> = _state
 
     fun processIntent(intent: EventListIntent) {
@@ -31,7 +36,7 @@ class EventListViewModel @Inject constructor(
         }
     }
 
-    private fun getEvents(userId: Int) {
+    private fun getEvents(userId: String) {
         viewModelScope.launch {
             _state.update { state -> state.copy(uiState = EventListUiState.Loading) }
             val result = repository.getEventsForUser(userId)
