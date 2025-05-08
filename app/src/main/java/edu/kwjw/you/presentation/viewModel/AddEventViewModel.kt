@@ -1,7 +1,6 @@
 package edu.kwjw.you.presentation.viewModel
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,6 @@ import javax.inject.Inject
 class AddEventViewModel @Inject constructor(
     private val repository: EventRepository
 ) : ViewModel() {
-    private val _userId = mutableStateOf("v6akUV9OlBRvRDX8sPnuLNy8GO03")
 
     private val _state = MutableStateFlow(AddEventState(uiState = AddEventUiState.Idle))
     val state: StateFlow<AddEventState> = _state
@@ -86,7 +84,6 @@ class AddEventViewModel @Inject constructor(
         } else {
             viewModelScope.launch {
                 val result = repository.addEvent(
-                    userId = _userId.value,
                     dateTimestamp = requireNotNull(_state.value.dateTimestamp) { "If no error, shouldn't be null" },
                     time = requireNotNull(_state.value.time) { "If no error, shouldn't be null" },
                     _state.value.name

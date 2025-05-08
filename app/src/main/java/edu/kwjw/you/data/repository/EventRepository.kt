@@ -6,10 +6,9 @@ import edu.kwjw.you.util.ApiResult
 
 interface EventRepository {
 
-    suspend fun getEventsForUser(userId: String): ApiResult<List<Event>>
+    suspend fun getEventsForUser(): ApiResult<List<Event>>
 
     suspend fun addEvent(
-        userId: String,
         dateTimestamp: Long,
         time: Time,
         name: String
