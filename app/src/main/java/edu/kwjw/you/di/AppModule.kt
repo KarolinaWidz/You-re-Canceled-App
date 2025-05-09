@@ -17,10 +17,10 @@ import edu.kwjw.you.data.remote.UserAccountFirebaseService
 import edu.kwjw.you.data.remote.UserAccountService
 import edu.kwjw.you.data.remote.adapter.LocalDateTimeAdapter
 import edu.kwjw.you.data.remote.adapter.UuidAdapter
-import edu.kwjw.you.data.repository.EventOnlineRepository
-import edu.kwjw.you.data.repository.EventRepository
-import edu.kwjw.you.data.repository.UserAccountOnlineRepository
-import edu.kwjw.you.data.repository.UserAccountRepository
+import edu.kwjw.you.data.repository.event.EventOnlineRepository
+import edu.kwjw.you.data.repository.event.EventRepository
+import edu.kwjw.you.data.repository.user.UserAccountOnlineRepository
+import edu.kwjw.you.data.repository.user.UserAccountRepository
 import edu.kwjw.you.util.AuthInterceptor
 import edu.kwjw.you.util.encrypteddatastore.UserPreferences
 import edu.kwjw.you.util.encrypteddatastore.UserPreferencesSerializer

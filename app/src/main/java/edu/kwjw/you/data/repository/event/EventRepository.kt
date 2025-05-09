@@ -1,4 +1,4 @@
-package edu.kwjw.you.data.repository
+package edu.kwjw.you.data.repository.event
 
 import edu.kwjw.you.data.repository.model.Event
 import edu.kwjw.you.presentation.ui.addnewevent.Time

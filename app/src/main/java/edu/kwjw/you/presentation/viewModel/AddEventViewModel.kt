@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.kwjw.you.data.repository.EventRepository
+import edu.kwjw.you.data.repository.event.EventRepository
 import edu.kwjw.you.presentation.ui.addnewevent.Time
 import edu.kwjw.you.presentation.uiState.AddEventIntent
 import edu.kwjw.you.presentation.uiState.AddEventState

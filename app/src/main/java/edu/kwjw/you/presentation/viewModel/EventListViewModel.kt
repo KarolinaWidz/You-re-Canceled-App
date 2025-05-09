@@ -3,7 +3,7 @@ package edu.kwjw.you.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.kwjw.you.data.repository.EventRepository
+import edu.kwjw.you.data.repository.event.EventRepository
 import edu.kwjw.you.presentation.ui.eventlist.toEventItemList
 import edu.kwjw.you.presentation.uiState.EventListIntent
 import edu.kwjw.you.presentation.uiState.EventListState
