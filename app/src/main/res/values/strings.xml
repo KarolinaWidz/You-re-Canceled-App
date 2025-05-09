@@ -35,4 +35,9 @@
     <string name="please_try_again">Please try again</string>
     <string name="retry">RETRY</string>
     <string name="sign_in">Sign in</string>
+    <string name="give_credential_to_sign_in_your_account">Give credential to sign in your account</string>
+    <string name="type_your_email">Type your email</string>
+    <string name="type_your_password">Type your password</string>
+    <string name="show_password">Show password</string>
+    <string name="hide_password">Hide password</string>
 </resources>

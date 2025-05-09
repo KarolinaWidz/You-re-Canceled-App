@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.theme.PaddingExtraLarge
-import edu.kwjw.you.presentation.ui.theme.PaddingMedium
+import edu.kwjw.you.presentation.ui.theme.PaddingLarge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +35,7 @@ internal fun AddEvent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(PaddingMedium)
+            .padding(PaddingLarge)
     ) {
         EventDetails(
             eventName = eventName,
