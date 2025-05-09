@@ -26,7 +26,7 @@ internal fun SignInScreen(
     goToEventList: () -> Unit = {},
     viewModel: SignInViewModel = hiltViewModel()
 ) {
-    val title = stringResource(R.string.app_name)
+    val title = stringResource(R.string.sign_in)
     val state by viewModel.state.collectAsState()
 
     Scaffold(

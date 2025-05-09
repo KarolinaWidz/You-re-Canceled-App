@@ -33,4 +33,9 @@
     <string name="please_try_again">Spróbuj ponownie</string>
     <string name="retry">ODŚWIEŻ</string>
     <string name="sign_in">Zaloguj się</string>
+    <string name="give_credential_to_sign_in_your_account">Podaj swoje dane aby zalogować się</string>
+    <string name="type_your_email">Podaj adres email</string>
+    <string name="type_your_password">Podaj hasło</string>
+    <string name="show_password">Pokaż hasło</string>
+    <string name="hide_password">Ukryj hasło</string>
 </resources>
