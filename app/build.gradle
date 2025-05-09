@@ -43,6 +43,9 @@ android {
         viewBinding true
         compose true
     }
+    testOptions {
+        unitTests.all { useJUnitPlatform() }
+    }
 }
 
 dependencies {
@@ -104,7 +107,8 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     testImplementation 'io.mockk:mockk-android:1.13.5'
     testImplementation 'io.mockk:mockk-agent:1.13.5'
     testImplementation "androidx.arch.core:core-testing:2.2.0"
@@ -114,8 +118,6 @@ dependencies {
 //    compose
     androidTestImplementation platform('androidx.compose:compose-bom:2024.10.01')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-
-
 }
 kapt {
     correctErrorTypes = true

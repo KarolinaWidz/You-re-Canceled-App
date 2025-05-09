@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.kwjw.you.data.repository.UserAccountRepository
+import edu.kwjw.you.data.repository.user.UserAccountRepository
 import edu.kwjw.you.presentation.uiState.SignInIntent
 import edu.kwjw.you.presentation.uiState.SignInState
 import edu.kwjw.you.presentation.uiState.SignInUiState

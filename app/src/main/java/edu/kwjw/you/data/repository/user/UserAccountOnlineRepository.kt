@@ -1,4 +1,4 @@
-package edu.kwjw.you.data.repository
+package edu.kwjw.you.data.repository.user
 
 import androidx.datastore.core.DataStore
 import edu.kwjw.you.data.remote.UserAccountService
@@ -10,17 +10,17 @@ class UserAccountOnlineRepository @Inject constructor(
     private val dataStore: DataStore<UserPreferences>
 ) : UserAccountRepository {
     override suspend fun signInWithEmail(email: String, password: String): Result<Unit> {
-        userAccountService.signInWithEmail(email = email, password = password)
-            .onSuccess { token ->
-                dataStore.updateData {
-                    UserPreferences(token = token)
-                }
-                return Result.success(Unit)
-            }.onFailure { e ->
+        return userAccountService.signInWithEmail(email = email, password = password).fold(
+            onSuccess =
+                { token ->
+                    dataStore.updateData {
+                        UserPreferences(token = token)
+                    }
+                    return Result.success(Unit)
+                },
+            onFailure = { e ->
                 return Result.failure(e)
             }
-        //todo add error handling
-        return Result.failure(Exception("what happened?"))
+        )
     }
-
 }

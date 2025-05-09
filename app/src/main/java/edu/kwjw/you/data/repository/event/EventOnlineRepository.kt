@@ -1,4 +1,4 @@
-package edu.kwjw.you.data.repository
+package edu.kwjw.you.data.repository.event
 
 import android.util.Log
 import edu.kwjw.you.data.remote.EventService
