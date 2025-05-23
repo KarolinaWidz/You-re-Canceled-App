@@ -1,9 +1,15 @@
 package edu.kwjw.you.presentation.uiState
 
+import edu.kwjw.you.util.validation.InputTextValidator
+
 data class SignInState(
     val uiState: SignInUiState,
     val email: String = "",
-    val password: String = ""
+    val isEmailError: Boolean = false,
+    val emailErrorType: InputTextValidator.Error? = null,
+    val password: String = "",
+    val isPasswordError: Boolean = false,
+    val passwordErrorType: InputTextValidator.Error? = null
 )
 
 sealed interface SignInUiState {

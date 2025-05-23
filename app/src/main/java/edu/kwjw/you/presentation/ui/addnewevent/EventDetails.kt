@@ -89,6 +89,7 @@ private fun EventNameField(
         },
         supportingText = {
             if (isError) {
+                //todo handle different type of errors
                 ShowError(R.string.event_name_value_is_required_please_provide_a_valid_event_name)
             }
         }
@@ -119,6 +120,7 @@ private fun EventDate(
         },
         supportingText = {
             if (isError) {
+                //todo handle different type of errors
                 ShowError(R.string.event_date_value_is_required_please_provide_a_valid_event_date)
             }
         },

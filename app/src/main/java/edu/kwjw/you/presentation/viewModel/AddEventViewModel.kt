@@ -12,8 +12,7 @@ import edu.kwjw.you.presentation.uiState.AddEventUiState
 import edu.kwjw.you.presentation.util.toFullDateString
 import edu.kwjw.you.presentation.util.toTimeString
 import edu.kwjw.you.util.ApiResult
-import edu.kwjw.you.util.ValidationError
-import edu.kwjw.you.util.ValidationResult
+import edu.kwjw.you.util.validation.InputTextValidator.validateEventName
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -93,21 +92,6 @@ class AddEventViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun validateEventName(name: String): ValidationResult {
-        if (name.isBlank()) {
-            Log.w(LOG_TAG, "Name is blank")
-            return ValidationResult(isSuccessful = false, error = ValidationError.Empty)
-        }
-        if (name.length > 100) {
-            Log.w(LOG_TAG, "Maximum length of name exceeded")
-            return ValidationResult(
-                isSuccessful = false,
-                error = ValidationError.MaxLengthExceeded
-            )
-        }
-        return ValidationResult(isSuccessful = true)
     }
 
     private fun validateDateAndTime() {
