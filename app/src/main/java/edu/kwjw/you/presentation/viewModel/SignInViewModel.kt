@@ -9,6 +9,7 @@ import edu.kwjw.you.presentation.uiState.SignInIntent
 import edu.kwjw.you.presentation.uiState.SignInState
 import edu.kwjw.you.presentation.uiState.SignInUiState
 import edu.kwjw.you.util.validation.InputTextValidator.validateEmail
+import edu.kwjw.you.util.validation.InputTextValidator.validateSignInPassword
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -43,10 +44,12 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun updatePassword(password: String) {
-        //todo add password validation
+        val result = validateSignInPassword(password)
         _state.update { state ->
             state.copy(
-                password = password
+                password = password,
+                isPasswordError = !result.isSuccessful,
+                passwordErrorType = result.error
             )
         }
     }

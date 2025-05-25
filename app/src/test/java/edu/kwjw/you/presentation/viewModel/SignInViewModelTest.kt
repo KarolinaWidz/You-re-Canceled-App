@@ -108,22 +108,43 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun `triggering updatePassword updates the state`() {
-        // GIVEN the password is updated
-        viewModel.processIntent(SignInIntent.UpdateEmail(PASSWORD))
+    fun `should not indicate error for non-empty password`() {
+        // GIVEN the non-empty password
+        val password = "password"
+
+        // WHEN it's used for updating
+        viewModel.processIntent(SignInIntent.UpdatePassword(password))
 
         // THEN the viewmodel state reflects the changes
-        assertEquals(PASSWORD, viewModel.state.value.email)
+        assertEquals(password, viewModel.state.value.password)
+
+        // AND no error is indicated
+        assertFalse(viewModel.state.value.isPasswordError)
+        assertNull(viewModel.state.value.passwordErrorType)
+    }
+
+    @Test
+    fun `should indicate error for empty password`() {
+        // GIVEN the non-empty password
+        val password = ""
+
+        // WHEN it's used for updating
+        viewModel.processIntent(SignInIntent.UpdatePassword(password))
+
+        // THEN the viewmodel state reflects the changes
+        assertEquals(password, viewModel.state.value.password)
+
+        // AND error is indicated
+        assertTrue(viewModel.state.value.isPasswordError)
+        assertEquals(
+            InputTextValidator.Error.Empty,
+            viewModel.state.value.passwordErrorType
+        )
     }
 
     //todo rest of the tests
-    // pasword validation
     // signing in
     // incorrect email -> failure
     // incorrect password -> failure
     // both incorrect -> failure
-
-    private companion object {
-        const val PASSWORD = "password"
-    }
 }
