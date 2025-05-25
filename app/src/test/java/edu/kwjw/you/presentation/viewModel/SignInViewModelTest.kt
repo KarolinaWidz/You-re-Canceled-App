@@ -3,22 +3,32 @@ package edu.kwjw.you.presentation.viewModel
 import android.util.Log
 import edu.kwjw.you.data.repository.user.UserAccountFakeRepository
 import edu.kwjw.you.presentation.uiState.SignInIntent
+import edu.kwjw.you.presentation.uiState.SignInUiState
 import edu.kwjw.you.util.validation.InputTextValidator
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SignInViewModelTest {
 
+    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
     val userAccountRepository = UserAccountFakeRepository()
     val viewModel = SignInViewModel(userAccountRepository)
 
@@ -34,6 +44,16 @@ class SignInViewModelTest {
     @AfterAll
     fun cleanup() {
         unmockkObject(Log::class)
+    }
+
+    @BeforeEach
+    fun setupDispatcher() {
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    @AfterEach
+    fun cleanupDispatcher() {
+        Dispatchers.resetMain()
     }
 
     @Test
@@ -142,9 +162,90 @@ class SignInViewModelTest {
         )
     }
 
-    //todo rest of the tests
-    // signing in
-    // incorrect email -> failure
-    // incorrect password -> failure
-    // both incorrect -> failure
+    @Test
+    fun `should set ui to idle at init`() {
+        // GIVEN view model is init
+        val viewModel = SignInViewModel(userAccountRepository)
+        // THEN UI state is set to idle
+        assertEquals(SignInUiState.Idle, viewModel.state.value.uiState)
+    }
+
+    @Test
+    fun `should set ui error when there is an email error`() {
+        // GIVEN the email error
+        val email = ""
+        viewModel.processIntent(SignInIntent.UpdateEmail(email))
+
+        // WHEN user is signing in
+        viewModel.processIntent(SignInIntent.SignIn)
+
+        // THEN UI state is set to error
+        assertEquals(SignInUiState.Error, viewModel.state.value.uiState)
+    }
+
+    @Test
+    fun `should set ui error when there is a password error`() {
+        // GIVEN the password error
+        val password = ""
+        viewModel.processIntent(SignInIntent.UpdatePassword(password))
+
+        // WHEN user is signing in
+        viewModel.processIntent(SignInIntent.SignIn)
+
+        // THEN UI state is set to error
+        assertEquals(SignInUiState.Error, viewModel.state.value.uiState)
+    }
+
+    @Test
+    fun `should set ui error when there is an email and password error`() {
+        // GIVEN the email error
+        val email = ""
+        // AND the password error
+        val password = ""
+
+        viewModel.processIntent(SignInIntent.UpdateEmail(email))
+        viewModel.processIntent(SignInIntent.UpdatePassword(password))
+
+        // WHEN user is signing in
+        viewModel.processIntent(SignInIntent.SignIn)
+
+        // THEN UI state is set to error
+        assertEquals(SignInUiState.Error, viewModel.state.value.uiState)
+    }
+
+    @Test
+    fun `should set ui error when signing in unsuccessful`() = runTest {
+        // GIVEN the correct email
+        val email = "example@example.com"
+        // AND the correct password
+        val password = "test"
+
+        viewModel.processIntent(SignInIntent.UpdateEmail(email))
+        viewModel.processIntent(SignInIntent.UpdatePassword(password))
+
+        // WHEN user is signing in
+        // AND there is no user
+        viewModel.processIntent(SignInIntent.SignIn)
+
+        // THEN UI state is set to error
+        assertEquals(SignInUiState.Error, viewModel.state.value.uiState)
+    }
+
+    @Test
+    fun `should set ui success when signing in successful`() = runTest {
+        // GIVEN the correct email
+        val email = "test@test.com"
+        // AND the correct password
+        val password = "password"
+
+        viewModel.processIntent(SignInIntent.UpdateEmail(email))
+        viewModel.processIntent(SignInIntent.UpdatePassword(password))
+
+        // WHEN user is signing in
+        // AND there is no user
+        viewModel.processIntent(SignInIntent.SignIn)
+
+        // THEN UI state is set to error
+        assertEquals(SignInUiState.Success, viewModel.state.value.uiState)
+    }
 }

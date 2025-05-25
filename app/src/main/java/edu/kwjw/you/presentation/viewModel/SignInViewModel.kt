@@ -55,16 +55,21 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun signIn() {
-        viewModelScope.launch {
-            userAccountRepository.signInWithEmail(
-                state.value.email,
-                state.value.password
-            ).onSuccess {
-                _state.update { state -> state.copy(uiState = SignInUiState.Success) }
-                Log.d(LOG_TAG, "User successfully signed in")
-            }.onFailure {
-                _state.update { state -> state.copy(uiState = SignInUiState.Error) }
-                Log.d(LOG_TAG, "Error during signing in")
+        if (state.value.isEmailError || state.value.isPasswordError) {
+            _state.update { state -> state.copy(uiState = SignInUiState.Error) }
+            Log.d(LOG_TAG, "Error during signing in due to password or email error")
+        } else {
+            viewModelScope.launch {
+                userAccountRepository.signInWithEmail(
+                    state.value.email,
+                    state.value.password
+                ).onSuccess {
+                    _state.update { state -> state.copy(uiState = SignInUiState.Success) }
+                    Log.d(LOG_TAG, "User successfully signed in")
+                }.onFailure {
+                    _state.update { state -> state.copy(uiState = SignInUiState.Error) }
+                    Log.d(LOG_TAG, "Error during signing in")
+                }
             }
         }
     }
