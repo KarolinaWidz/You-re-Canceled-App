@@ -38,4 +38,9 @@
     <string name="type_your_password">Podaj hasło</string>
     <string name="show_password">Pokaż hasło</string>
     <string name="hide_password">Ukryj hasło</string>
+    <string name="email_field_cannot_be_empty">Pole email nie może być puste</string>
+    <string name="the_email_address_format_is_invalid">"Adres email jest nieprawidłowy  "</string>
+    <string name="email_must_be_100_characters_or_fewer">Email musi mieć maksymalnie 100 znaków</string>
+    <string name="password_field_cannot_be_empty">Pole hasła nie może być puste</string>
+    <string name="password_exceeds_the_allowed_length">Hasło przekracza dozwoloną długość</string>
 </resources>

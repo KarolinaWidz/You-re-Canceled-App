@@ -3,10 +3,13 @@ package edu.kwjw.you.presentation.ui.screen
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -28,16 +31,20 @@ internal fun SignInScreen(
 ) {
     val title = stringResource(R.string.sign_in)
     val state by viewModel.state.collectAsState()
+    val snackbarHost = remember { SnackbarHostState() }
 
     Scaffold(
         modifier = modifier,
         topBar = { TopTitleBar(title) },
+        snackbarHost = { SnackbarHost(hostState = snackbarHost) },
         containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) { contentPadding ->
         SignIn(
             modifier = Modifier.padding(contentPadding),
-            login = state.email,
-            onLoginChanged = { login -> viewModel.processIntent(SignInIntent.UpdateEmail(login)) },
+            email = state.email,
+            onEmailChanged = { login -> viewModel.processIntent(SignInIntent.UpdateEmail(login)) },
+            isEmailError = state.isEmailError,
+            emailErrorType = state.emailErrorType,
             password = state.password,
             onPasswordChanged = { password ->
                 viewModel.processIntent(
@@ -46,15 +53,15 @@ internal fun SignInScreen(
                     )
                 )
             },
+            isPasswordError = state.isPasswordError,
+            passwordErrorType = state.passwordErrorType,
             onSignOnClicked = { viewModel.processIntent(SignInIntent.SignIn) }
         )
 
         LaunchedEffect(state.uiState) {
             when (state.uiState) {
                 SignInUiState.Success -> goToEventList()
-                SignInUiState.Error -> {
-                    //todo add error handling
-                }
+                SignInUiState.Error -> snackbarHost.showSnackbar("Unable to sign in")
                 SignInUiState.Idle -> {
                     /* Intentionally empty */
                 }

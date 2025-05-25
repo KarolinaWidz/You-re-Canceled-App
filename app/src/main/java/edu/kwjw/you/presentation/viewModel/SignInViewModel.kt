@@ -55,6 +55,7 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun signIn() {
+        _state.update { state -> state.copy(uiState = SignInUiState.Idle) }
         if (state.value.isEmailError || state.value.isPasswordError) {
             _state.update { state -> state.copy(uiState = SignInUiState.Error) }
             Log.d(LOG_TAG, "Error during signing in due to password or email error")

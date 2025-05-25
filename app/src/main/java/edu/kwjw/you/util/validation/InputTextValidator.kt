@@ -6,6 +6,7 @@ object InputTextValidator {
     private const val LOG_TAG = "InputTextValidator"
     private const val MAX_EVENT_NAME_LENGTH = 100
     private const val MAX_EMAIL_LENGTH = 100
+    private const val MAX_PASSWORD_LENGTH = 100
     private val EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$".toRegex()
 
     internal fun validateEventName(name: String): Result {
@@ -50,6 +51,11 @@ object InputTextValidator {
             password.isBlank() -> {
                 Log.d(LOG_TAG, "Password is blank")
                 Result(isSuccessful = false, error = Error.Empty)
+            }
+
+            password.length > MAX_PASSWORD_LENGTH -> {
+                Log.d(LOG_TAG, "Password is blank")
+                Result(isSuccessful = false, error = Error.MaxLengthExceeded)
             }
 
             else -> Result(isSuccessful = true)

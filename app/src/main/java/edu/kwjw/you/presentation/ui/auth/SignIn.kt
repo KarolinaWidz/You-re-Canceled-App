@@ -13,14 +13,19 @@ import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.theme.PaddingLarge
 import edu.kwjw.you.presentation.ui.theme.PaddingMedium
+import edu.kwjw.you.util.validation.InputTextValidator
 
 @Composable
 internal fun SignIn(
     modifier: Modifier = Modifier,
-    login: String = "",
-    onLoginChanged: (String) -> Unit = {},
+    email: String = "",
+    onEmailChanged: (String) -> Unit = {},
+    isEmailError: Boolean = false,
+    emailErrorType: InputTextValidator.Error? = null,
     password: String = "",
     onPasswordChanged: (String) -> Unit = {},
+    isPasswordError: Boolean = false,
+    passwordErrorType: InputTextValidator.Error? = null,
     onSignOnClicked: () -> Unit = {},
 ) {
     Column(
@@ -29,8 +34,17 @@ internal fun SignIn(
             .padding(PaddingLarge)
     ) {
         Subtitle()
-        LoginTextField(login = login, onLoginChanged = onLoginChanged)
-        PasswordTextField(password = password, onPasswordChanged = onPasswordChanged)
+        EmailTextField(
+            email = email,
+            onLoginChanged = onEmailChanged,
+            isError = isEmailError,
+            errorStringId = resolveEmailErrorString(emailErrorType)
+        )
+        PasswordTextField(
+            password = password, onPasswordChanged = onPasswordChanged,
+            isError = isPasswordError,
+            errorStringId = resolvePasswordErrorString(passwordErrorType)
+        )
         SignInButton(text = stringResource(R.string.sign_in), onSignInClicked = onSignOnClicked)
     }
 }
@@ -43,6 +57,19 @@ private fun Subtitle(modifier: Modifier = Modifier) {
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
+}
+
+private fun resolveEmailErrorString(errorType: InputTextValidator.Error?) = when (errorType) {
+    InputTextValidator.Error.Empty -> R.string.email_field_cannot_be_empty
+    InputTextValidator.Error.IncorrectEmailFormat -> R.string.the_email_address_format_is_invalid
+    InputTextValidator.Error.MaxLengthExceeded -> R.string.email_must_be_100_characters_or_fewer
+    else -> null
+}
+
+private fun resolvePasswordErrorString(errorType: InputTextValidator.Error?) = when (errorType) {
+    InputTextValidator.Error.Empty -> R.string.password_field_cannot_be_empty
+    InputTextValidator.Error.MaxLengthExceeded -> R.string.password_exceeds_the_allowed_length
+    else -> null
 }
 
 @Composable

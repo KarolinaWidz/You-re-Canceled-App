@@ -165,6 +165,26 @@ class SignInViewModelTest {
     }
 
     @Test
+    fun `should indicate error for too long password`() {
+        // GIVEN the too long password
+        val password =
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma"
+
+        // WHEN it's used for updating
+        viewModel.processIntent(SignInIntent.UpdatePassword(password))
+
+        // THEN the viewmodel state reflects the changes
+        assertEquals(password, viewModel.state.value.password)
+
+        // AND the error is indicated with MaxLengthExceeded type
+        assertTrue(viewModel.state.value.isPasswordError)
+        assertEquals(
+            InputTextValidator.Error.MaxLengthExceeded,
+            viewModel.state.value.passwordErrorType
+        )
+    }
+
+    @Test
     fun `should set ui to idle at init`() {
         // GIVEN view model is init
         val viewModel = SignInViewModel(userAccountRepository)

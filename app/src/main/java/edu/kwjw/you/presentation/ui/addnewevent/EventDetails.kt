@@ -1,11 +1,8 @@
 package edu.kwjw.you.presentation.ui.addnewevent
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.common.ClickableTextField
 import edu.kwjw.you.presentation.ui.common.DatePickerModalDialog
+import edu.kwjw.you.presentation.ui.common.TextFieldError
 import edu.kwjw.you.presentation.ui.common.TimePickerModalDialog
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.theme.PaddingMedium
@@ -90,7 +88,7 @@ private fun EventNameField(
         supportingText = {
             if (isError) {
                 //todo handle different type of errors
-                ShowError(R.string.event_name_value_is_required_please_provide_a_valid_event_name)
+                TextFieldError(R.string.event_name_value_is_required_please_provide_a_valid_event_name)
             }
         }
     )
@@ -121,7 +119,7 @@ private fun EventDate(
         supportingText = {
             if (isError) {
                 //todo handle different type of errors
-                ShowError(R.string.event_date_value_is_required_please_provide_a_valid_event_date)
+                TextFieldError(R.string.event_date_value_is_required_please_provide_a_valid_event_date)
             }
         },
         onClicked = {
@@ -163,7 +161,7 @@ private fun EventTime(
         },
         supportingText = {
             if (isError) {
-                ShowError(R.string.event_time_value_is_required_please_provide_a_valid_event_time)
+                TextFieldError(R.string.event_time_value_is_required_please_provide_a_valid_event_time)
             }
         },
         onClicked = {
@@ -179,22 +177,6 @@ private fun EventTime(
     )
 }
 
-@Composable
-private fun ShowError(
-    stringId: Int,
-    modifier: Modifier = Modifier
-) {
-    Row(modifier = modifier) {
-        Icon(
-            modifier = Modifier.padding(end = PaddingSmall),
-            imageVector = Icons.Filled.Info,
-            tint = MaterialTheme.colorScheme.error,
-            contentDescription = null
-        )
-        Text(text = stringResource(stringId), color = MaterialTheme.colorScheme.error)
-
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

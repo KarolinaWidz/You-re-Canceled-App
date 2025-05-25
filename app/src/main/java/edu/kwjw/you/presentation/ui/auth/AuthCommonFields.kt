@@ -18,24 +18,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import edu.kwjw.you.R
+import edu.kwjw.you.presentation.ui.common.TextFieldError
 import edu.kwjw.you.presentation.ui.theme.PaddingExtraExtraLarge
 import edu.kwjw.you.presentation.ui.theme.PaddingSmall
 
 @Composable
-internal fun LoginTextField(
-    login: String,
+internal fun EmailTextField(
+    email: String,
     onLoginChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
+    errorStringId: Int? = null
 ) {
     OutlinedTextField(
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = PaddingSmall),
         singleLine = true,
-        value = login,
+        value = email,
         onValueChange = onLoginChanged,
         isError = isError,
+        supportingText = {
+            if (isError && errorStringId != null) {
+                TextFieldError(errorStringId)
+            }
+        },
         label = { Text(stringResource(R.string.type_your_email)) },
         leadingIcon = {
             Icon(
@@ -52,6 +59,7 @@ internal fun PasswordTextField(
     onPasswordChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
+    errorStringId: Int? = null
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -63,6 +71,11 @@ internal fun PasswordTextField(
         value = password,
         onValueChange = onPasswordChanged,
         isError = isError,
+        supportingText = {
+            if (isError && errorStringId != null) {
+                TextFieldError(errorStringId)
+            }
+        },
         label = { Text(stringResource(R.string.type_your_password)) },
         leadingIcon = {
             Icon(
