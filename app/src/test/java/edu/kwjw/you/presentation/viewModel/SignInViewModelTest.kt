@@ -9,6 +9,7 @@ import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkObject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@OptIn(ExperimentalCoroutinesApi::class)
 class SignInViewModelTest {
 
     val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
