@@ -18,6 +18,8 @@ import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.auth.SignIn
 import edu.kwjw.you.presentation.ui.common.TopTitleBar
 import edu.kwjw.you.presentation.ui.theme.AppTheme
+import edu.kwjw.you.presentation.ui.util.ObserveAsEvents
+import edu.kwjw.you.presentation.uiState.SideEffect
 import edu.kwjw.you.presentation.uiState.SignInIntent
 import edu.kwjw.you.presentation.uiState.SignInUiState
 import edu.kwjw.you.presentation.viewModel.SignInViewModel
@@ -58,11 +60,19 @@ internal fun SignInScreen(
             onSignOnClicked = { viewModel.processIntent(SignInIntent.SignIn) }
         )
 
+        ObserveAsEvents(viewModel.sideEffectChannel) { effect ->
+            when (effect) {
+                SideEffect.ShowErrorSnackbar -> {
+                    snackbarHost.showSnackbar("Unable to sign in")
+                }
+            }
+        }
         LaunchedEffect(state.uiState) {
             when (state.uiState) {
                 SignInUiState.Success -> goToEventList()
-                SignInUiState.Error -> snackbarHost.showSnackbar("Unable to sign in")
-                SignInUiState.Idle -> {
+                //todo add retry in 5 seconds and retry to snackbar
+                SignInUiState.FormError -> TODO()
+                else -> {
                     /* Intentionally empty */
                 }
             }

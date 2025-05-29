@@ -5,13 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.kwjw.you.data.repository.user.UserAccountRepository
+import edu.kwjw.you.presentation.uiState.SideEffect
 import edu.kwjw.you.presentation.uiState.SignInIntent
 import edu.kwjw.you.presentation.uiState.SignInState
 import edu.kwjw.you.presentation.uiState.SignInUiState
 import edu.kwjw.you.util.validation.InputTextValidator.validateEmail
 import edu.kwjw.you.util.validation.InputTextValidator.validateSignInPassword
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +26,9 @@ class SignInViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(SignInState(uiState = SignInUiState.Idle))
     val state: StateFlow<SignInState> = _state
+
+    private val _channelSideEffects = Channel<SideEffect>()
+    val sideEffectChannel = _channelSideEffects.receiveAsFlow()
 
     fun processIntent(intent: SignInIntent) {
         when (intent) {
@@ -38,7 +44,8 @@ class SignInViewModel @Inject constructor(
             state.copy(
                 email = email,
                 isEmailError = !result.isSuccessful,
-                emailErrorType = result.error
+                emailErrorType = result.error,
+                uiState = SignInUiState.Idle
             )
         }
     }
@@ -49,15 +56,15 @@ class SignInViewModel @Inject constructor(
             state.copy(
                 password = password,
                 isPasswordError = !result.isSuccessful,
-                passwordErrorType = result.error
+                passwordErrorType = result.error,
+                uiState = SignInUiState.Idle
             )
         }
     }
 
     private fun signIn() {
-        _state.update { state -> state.copy(uiState = SignInUiState.Idle) }
         if (state.value.isEmailError || state.value.isPasswordError) {
-            _state.update { state -> state.copy(uiState = SignInUiState.Error) }
+            _state.update { state -> state.copy(uiState = SignInUiState.FormError) }
             Log.d(LOG_TAG, "Error during signing in due to password or email error")
         } else {
             viewModelScope.launch {
@@ -68,7 +75,7 @@ class SignInViewModel @Inject constructor(
                     _state.update { state -> state.copy(uiState = SignInUiState.Success) }
                     Log.d(LOG_TAG, "User successfully signed in")
                 }.onFailure {
-                    _state.update { state -> state.copy(uiState = SignInUiState.Error) }
+                    _channelSideEffects.send(SideEffect.ShowErrorSnackbar)
                     Log.d(LOG_TAG, "Error during signing in")
                 }
             }

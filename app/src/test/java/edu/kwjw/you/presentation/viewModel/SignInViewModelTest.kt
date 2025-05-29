@@ -201,8 +201,8 @@ class SignInViewModelTest {
         // WHEN user is signing in
         viewModel.processIntent(SignInIntent.SignIn)
 
-        // THEN UI state is set to error
-        assertEquals(SignInUiState.Error, viewModel.state.value.uiState)
+        // THEN UI state is set to form error
+        assertEquals(SignInUiState.FormError, viewModel.state.value.uiState)
     }
 
     @Test
@@ -214,8 +214,8 @@ class SignInViewModelTest {
         // WHEN user is signing in
         viewModel.processIntent(SignInIntent.SignIn)
 
-        // THEN UI state is set to error
-        assertEquals(SignInUiState.Error, viewModel.state.value.uiState)
+        // THEN UI state is set to form error
+        assertEquals(SignInUiState.FormError, viewModel.state.value.uiState)
     }
 
     @Test
@@ -231,8 +231,8 @@ class SignInViewModelTest {
         // WHEN user is signing in
         viewModel.processIntent(SignInIntent.SignIn)
 
-        // THEN UI state is set to error
-        assertEquals(SignInUiState.Error, viewModel.state.value.uiState)
+        // THEN UI state is set to form error
+        assertEquals(SignInUiState.FormError, viewModel.state.value.uiState)
     }
 
     @Test
@@ -249,8 +249,8 @@ class SignInViewModelTest {
         // AND there is no user
         viewModel.processIntent(SignInIntent.SignIn)
 
-        // THEN UI state is set to error
-        assertEquals(SignInUiState.Error, viewModel.state.value.uiState)
+        // THEN UI state is set to form error
+        assertEquals(SignInUiState.FormError, viewModel.state.value.uiState)
     }
 
     @Test

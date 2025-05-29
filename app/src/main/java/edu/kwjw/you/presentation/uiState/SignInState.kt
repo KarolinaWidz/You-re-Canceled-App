@@ -15,6 +15,10 @@ data class SignInState(
 sealed interface SignInUiState {
     //todo add loading for button
     data object Idle : SignInUiState
-    data object Error : SignInUiState
+    data object FormError : SignInUiState
     data object Success : SignInUiState
+}
+
+sealed interface SideEffect {
+    data object ShowErrorSnackbar : SideEffect
 }
