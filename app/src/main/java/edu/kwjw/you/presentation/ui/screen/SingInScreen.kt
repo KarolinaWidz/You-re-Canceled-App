@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +21,7 @@ import edu.kwjw.you.presentation.ui.common.TopTitleBar
 import edu.kwjw.you.presentation.ui.theme.AppTheme
 import edu.kwjw.you.presentation.ui.util.ObserveAsEvents
 import edu.kwjw.you.presentation.uiState.SideEffect
+import edu.kwjw.you.presentation.uiState.SideEffect.ShowErrorSnackbar.ErrorType
 import edu.kwjw.you.presentation.uiState.SignInIntent
 import edu.kwjw.you.presentation.uiState.SignInUiState
 import edu.kwjw.you.presentation.viewModel.SignInViewModel
@@ -34,6 +36,7 @@ internal fun SignInScreen(
     val title = stringResource(R.string.sign_in)
     val state by viewModel.state.collectAsState()
     val snackbarHost = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     Scaffold(
         modifier = modifier,
@@ -57,21 +60,27 @@ internal fun SignInScreen(
             },
             isPasswordError = state.isPasswordError,
             passwordErrorType = state.passwordErrorType,
-            onSignOnClicked = { viewModel.processIntent(SignInIntent.SignIn) }
+            onSignOnClicked = { viewModel.processIntent(SignInIntent.SignIn) },
+            isSignInButtonEnabled = !state.isEmailError && !state.isPasswordError
         )
 
         ObserveAsEvents(viewModel.sideEffectChannel) { effect ->
             when (effect) {
-                SideEffect.ShowErrorSnackbar -> {
-                    snackbarHost.showSnackbar("Unable to sign in")
+                is SideEffect.ShowErrorSnackbar -> {
+                    snackbarHost.showSnackbar(
+                        message = context.getString(
+                            resolveSnackbarMessage(
+                                errorType = effect.errorType
+                            )
+                        )
+                    )
                 }
             }
         }
+
         LaunchedEffect(state.uiState) {
             when (state.uiState) {
                 SignInUiState.Success -> goToEventList()
-                //todo add retry in 5 seconds and retry to snackbar
-                SignInUiState.FormError -> TODO()
                 else -> {
                     /* Intentionally empty */
                 }
@@ -79,6 +88,12 @@ internal fun SignInScreen(
         }
     }
 }
+
+private fun resolveSnackbarMessage(errorType: ErrorType) =
+    when (errorType) {
+        ErrorType.FORM_ERROR -> R.string.email_and_password_cannot_be_empty_please_fill_in_both_fields
+        ErrorType.SIGN_IN_ERROR -> R.string.failed_to_sign_in_please_check_your_credentials
+    }
 
 @Composable
 @PreviewLightDark

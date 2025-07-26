@@ -26,6 +26,7 @@ internal fun SignIn(
     onPasswordChanged: (String) -> Unit = {},
     isPasswordError: Boolean = false,
     passwordErrorType: InputTextValidator.Error? = null,
+    isSignInButtonEnabled: Boolean = false,
     onSignOnClicked: () -> Unit = {},
 ) {
     Column(
@@ -45,7 +46,11 @@ internal fun SignIn(
             isError = isPasswordError,
             errorStringId = resolvePasswordErrorString(passwordErrorType)
         )
-        SignInButton(text = stringResource(R.string.sign_in), onSignInClicked = onSignOnClicked)
+        SignInButton(
+            isEnabled = isSignInButtonEnabled,
+            text = stringResource(R.string.sign_in),
+            onSignInClicked = onSignOnClicked
+        )
     }
 }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.kwjw.you.data.repository.user.UserAccountRepository
 import edu.kwjw.you.presentation.uiState.SideEffect
+import edu.kwjw.you.presentation.uiState.SideEffect.ShowErrorSnackbar.ErrorType
 import edu.kwjw.you.presentation.uiState.SignInIntent
 import edu.kwjw.you.presentation.uiState.SignInState
 import edu.kwjw.you.presentation.uiState.SignInUiState
@@ -63,8 +64,10 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun signIn() {
-        if (state.value.isEmailError || state.value.isPasswordError) {
-            _state.update { state -> state.copy(uiState = SignInUiState.FormError) }
+        if (state.value.email.isBlank() || state.value.password.isBlank() || state.value.isEmailError || state.value.isPasswordError) {
+            viewModelScope.launch {
+                _channelSideEffects.send(SideEffect.ShowErrorSnackbar(errorType = ErrorType.FORM_ERROR))
+            }
             Log.d(LOG_TAG, "Error during signing in due to password or email error")
         } else {
             viewModelScope.launch {
@@ -75,7 +78,7 @@ class SignInViewModel @Inject constructor(
                     _state.update { state -> state.copy(uiState = SignInUiState.Success) }
                     Log.d(LOG_TAG, "User successfully signed in")
                 }.onFailure {
-                    _channelSideEffects.send(SideEffect.ShowErrorSnackbar)
+                    _channelSideEffects.send(SideEffect.ShowErrorSnackbar(errorType = ErrorType.SIGN_IN_ERROR))
                     Log.d(LOG_TAG, "Error during signing in")
                 }
             }

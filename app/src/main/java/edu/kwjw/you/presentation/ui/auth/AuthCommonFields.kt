@@ -95,6 +95,7 @@ internal fun PasswordTextField(
 @Composable
 internal fun SignInButton(
     text: String,
+    isEnabled: Boolean,
     modifier: Modifier = Modifier,
     onSignInClicked: () -> Unit
 ) {
@@ -102,7 +103,8 @@ internal fun SignInButton(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = PaddingExtraExtraLarge),
-        onClick = onSignInClicked
+        onClick = onSignInClicked,
+        enabled = isEnabled
     ) {
         Text(text = text)
     }

@@ -45,4 +45,6 @@
     <string name="email_must_be_100_characters_or_fewer">Email must be 100 characters or fewer</string>
     <string name="password_field_cannot_be_empty">Password field cannot be empty</string>
     <string name="password_exceeds_the_allowed_length">Password exceeds the allowed length</string>
+    <string name="failed_to_sign_in_please_check_your_credentials">Failed to sign in. Please check your credentials.</string>
+    <string name="email_and_password_cannot_be_empty_please_fill_in_both_fields">Email and password cannot be empty. Please fill in both fields.</string>
 </resources>
