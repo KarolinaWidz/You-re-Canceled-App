@@ -34,7 +34,6 @@ internal fun EventListScreen(
     viewModel: EventListViewModel = hiltViewModel(),
     onAddNewItemClicked: () -> Unit = {},
 ) {
-    //todo add ignoring login screen if user is logged in
     val title = stringResource(R.string.app_name)
     val snackbarHost = remember { SnackbarHostState() }
     val state by viewModel.state.collectAsState()

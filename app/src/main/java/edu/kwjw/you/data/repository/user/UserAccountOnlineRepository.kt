@@ -13,6 +13,7 @@ class UserAccountOnlineRepository @Inject constructor(
         return userAccountService.signInWithEmail(email = email, password = password).fold(
             onSuccess =
                 { token ->
+                    //todo rely only on the firebase service for token
                     dataStore.updateData {
                         UserPreferences(token = token)
                     }
