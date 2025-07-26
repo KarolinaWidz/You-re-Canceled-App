@@ -43,4 +43,6 @@
     <string name="email_must_be_100_characters_or_fewer">Email musi mieć maksymalnie 100 znaków</string>
     <string name="password_field_cannot_be_empty">Pole hasła nie może być puste</string>
     <string name="password_exceeds_the_allowed_length">Hasło przekracza dozwoloną długość</string>
+    <string name="failed_to_sign_in_please_check_your_credentials">Nie udało się zalogować. Sprawdź swoje dane logowania.</string>
+    <string name="email_and_password_cannot_be_empty_please_fill_in_both_fields">Adres e-mail i hasło nie mogą pozostać puste. Proszę wypełnić oba pola.</string>
 </resources>
