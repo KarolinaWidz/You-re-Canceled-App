@@ -50,6 +50,19 @@ class EventOnlineRepository @Inject constructor(private val eventService: EventS
         ApiResult.NetworkError(e)
     }
 
+    override suspend fun getEventById(id: String): ApiResult<Event> = try {
+        val result = eventService.getEventById(id).toEvent()
+        Log.i(LOG_TAG, "Event fetched successfully: $result")
+        ApiResult.Success(result)
+    } catch (e: HttpException) {
+        Log.e(LOG_TAG, "Event fetching failure because of ${e.code()}")
+        ApiResult.HttpError(e.code())
+
+    } catch (e: IOException) {
+        Log.e(LOG_TAG, "Event fetching failure because of network error: $e")
+        ApiResult.NetworkError(e)
+    }
+
     private fun createDateTimeObject(dateTimestamp: Long, time: Time): LocalDateTime {
         val zoneId = ZoneId.systemDefault()
         val date = Instant.ofEpochMilli(dateTimestamp).atZone(zoneId).toLocalDate()

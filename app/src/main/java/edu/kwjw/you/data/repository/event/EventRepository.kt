@@ -13,4 +13,6 @@ interface EventRepository {
         time: Time,
         name: String
     ): ApiResult<Event>
+
+    suspend fun getEventById(id: String): ApiResult<Event>
 }
