@@ -2,14 +2,17 @@ package edu.kwjw.you.presentation.viewModel
 
 import android.util.Log
 import edu.kwjw.you.data.repository.user.UserAccountFakeRepository
+import edu.kwjw.you.presentation.uiState.SideEffect
 import edu.kwjw.you.presentation.uiState.SignInIntent
 import edu.kwjw.you.presentation.uiState.SignInUiState
 import edu.kwjw.you.util.validation.InputTextValidator
+import io.mockk.core.ValueClassSupport.boxedValue
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -193,7 +196,7 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun `should set ui error when there is an email error`() {
+    fun `should dispatch form error when there is an email error`() = runTest {
         // GIVEN the email error
         val email = ""
         viewModel.processIntent(SignInIntent.UpdateEmail(email))
@@ -201,12 +204,16 @@ class SignInViewModelTest {
         // WHEN user is signing in
         viewModel.processIntent(SignInIntent.SignIn)
 
-        // THEN UI state is set to form error
-        assertEquals(SignInUiState.FormError, viewModel.state.value.uiState)
+        // THEN form error is dispatched
+        val result = viewModel.sideEffectChannel.first().boxedValue
+        assertEquals(
+            SideEffect.ShowErrorSnackbar(errorType = SideEffect.ShowErrorSnackbar.ErrorType.FORM_ERROR),
+            result
+        )
     }
 
     @Test
-    fun `should set ui error when there is a password error`() {
+    fun `should dispatch form error when there is a password error`() = runTest {
         // GIVEN the password error
         val password = ""
         viewModel.processIntent(SignInIntent.UpdatePassword(password))
@@ -214,12 +221,16 @@ class SignInViewModelTest {
         // WHEN user is signing in
         viewModel.processIntent(SignInIntent.SignIn)
 
-        // THEN UI state is set to form error
-        assertEquals(SignInUiState.FormError, viewModel.state.value.uiState)
+        // THEN form error is dispatched
+        val result = viewModel.sideEffectChannel.first().boxedValue
+        assertEquals(
+            SideEffect.ShowErrorSnackbar(errorType = SideEffect.ShowErrorSnackbar.ErrorType.FORM_ERROR),
+            result
+        )
     }
 
     @Test
-    fun `should set ui error when there is an email and password error`() {
+    fun `should dispatch form error when there is an email and password error`() = runTest {
         // GIVEN the email error
         val email = ""
         // AND the password error
@@ -231,12 +242,16 @@ class SignInViewModelTest {
         // WHEN user is signing in
         viewModel.processIntent(SignInIntent.SignIn)
 
-        // THEN UI state is set to form error
-        assertEquals(SignInUiState.FormError, viewModel.state.value.uiState)
+        // THEN form error is dispatched
+        val result = viewModel.sideEffectChannel.first().boxedValue
+        assertEquals(
+            SideEffect.ShowErrorSnackbar(errorType = SideEffect.ShowErrorSnackbar.ErrorType.FORM_ERROR),
+            result
+        )
     }
 
     @Test
-    fun `should set ui error when signing in unsuccessful`() = runTest {
+    fun `should dispatch sign in error when signing in unsuccessful`() = runTest {
         // GIVEN the correct email
         val email = "example@example.com"
         // AND the correct password
@@ -249,8 +264,12 @@ class SignInViewModelTest {
         // AND there is no user
         viewModel.processIntent(SignInIntent.SignIn)
 
-        // THEN UI state is set to form error
-        assertEquals(SignInUiState.FormError, viewModel.state.value.uiState)
+        // THEN sign in error is dispatched
+        val result = viewModel.sideEffectChannel.first().boxedValue
+        assertEquals(
+            SideEffect.ShowErrorSnackbar(errorType = SideEffect.ShowErrorSnackbar.ErrorType.SIGN_IN_ERROR),
+            result
+        )
     }
 
     @Test
