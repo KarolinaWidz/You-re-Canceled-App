@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import edu.kwjw.you.R
 import edu.kwjw.you.presentation.ui.common.BottomBar
 import edu.kwjw.you.presentation.ui.common.LinearLoadingIndicator

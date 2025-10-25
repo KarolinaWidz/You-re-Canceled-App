@@ -59,6 +59,7 @@ fun TopTitleBar(
             navigationIconContentColor = MaterialTheme.colorScheme.inverseSurface,
             titleContentColor = MaterialTheme.colorScheme.inverseSurface,
             actionIconContentColor = MaterialTheme.colorScheme.inverseSurface,
+            subtitleContentColor = MaterialTheme.colorScheme.inverseSurface,
         )
     )
 }
